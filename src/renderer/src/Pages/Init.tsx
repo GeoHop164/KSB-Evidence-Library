@@ -3,16 +3,22 @@ import Header from '../components/Header'
 import InitSelector from '../components/InitSelector'
 import HelpButton from '../components/HelpButton'
 import LibraryIntro from '../components/LibraryIntro'
+import LibraryBuilder from '../components/LibraryBuilder'
 
-function Init(): React.JSX.Element {
+interface InitProps {
+  onConfigSet: (config: string) => void
+}
+
+function Init({ onConfigSet }: InitProps): React.JSX.Element {
   const [helpOpen, setHelpOpen] = useState(false)
-  console.log(`helpOpen: ${helpOpen}`);
+  const [newOpen, setNewOpen] = useState(false)
   return (
     <>
       <Header></Header>
-      <InitSelector></InitSelector>
+      <InitSelector setConfig={onConfigSet} setNewOpen={setNewOpen}></InitSelector>
       <HelpButton helpOpen={helpOpen} setHelpOpen={setHelpOpen}></HelpButton>
       {helpOpen && <LibraryIntro></LibraryIntro>}
+      {newOpen && <LibraryBuilder setNewOpen={setNewOpen} setConfig={onConfigSet}></LibraryBuilder>}
     </>
   )
 }

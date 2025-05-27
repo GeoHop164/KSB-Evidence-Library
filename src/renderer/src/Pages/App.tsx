@@ -1,9 +1,8 @@
-import Header from '../components/Header'
-
-function App(): React.JSX.Element {
+function App(path: string): React.JSX.Element {
+  console.log(path)
   return (
     <>
-      <Header></Header>
+      <p>{path}</p>
     </>
   )
 }

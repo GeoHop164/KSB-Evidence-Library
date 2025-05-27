@@ -49,6 +49,8 @@ Purple:
 .actionContainer {
     background-color: white;
     text-align: center;
+    border-top: solid black 1vh;
+    
 }
 
 .actionText {

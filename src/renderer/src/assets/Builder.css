@@ -1,0 +1,48 @@
+/* Colours:
+Home (Red):
+#EE8683
+
+Lights (Cyan):
+#64C8C8
+
+PC (Green):
+#80B790
+
+Apps (Yellow):
+#FFC68B
+
+Tools (Blue):
+#6480C8
+
+Purple:
+#B89AE9
+*/
+
+@font-face {
+  font-family: 'SimplyMono';
+  src: url('./Fonts/SimplyMono-Book.ttf');
+}
+
+#libraryBuilderFg {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    height: 90%;
+    width: 90%;
+}
+
+.ksbListItem {
+    border: solid black 0.5vh;
+    box-shadow: -0.5vh 0.5vh 0px 0px rgba(0,0,0,1);
+    display: block;
+    font-family: 'SimplyMono';
+}
+
+.title {
+    font-family: 'SimplyMono';
+}
+
+.CriteriaTitle {
+    font-family: 'SimplyMono';
+    
+}

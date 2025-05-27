@@ -4,10 +4,30 @@ import NewIcon from '../assets/Init/new.webp'
 import ExistingIcon from '../assets/Init/existing.webp'
 import ImportIcon from '../assets/Init/Import.webp'
 
-function InitSelector(): React.JSX.Element {
+interface InitSelectorrProps {
+  setNewOpen: (open: boolean) => void
+  setConfig: (open: string) => void
+}
+
+function InitSelector({ setNewOpen, setConfig }: InitSelectorrProps): React.JSX.Element {
+  async function openExisting(): Promise<void> {
+    const result = await window.electron.ipcRenderer.invoke('openExisting')
+    if (result.state == true) {
+      setConfig(result.path)
+    } else {
+      alert(`Couldn't open directory: ${result.message}`)
+    }
+  }
   return (
     <div id="initSelectors">
-      <div className="initSelectorOption card clickable" id="init_New" style={{ backgroundColor: '#B89AE9' }}>
+      <div
+        className="initSelectorOption card clickable"
+        id="init_New"
+        style={{ backgroundColor: '#B89AE9' }}
+        onClick={() => {
+          setNewOpen(true)
+        }}
+      >
         <div className="imageContainer">
           <img src={NewIcon} />
         </div>
@@ -20,7 +40,12 @@ function InitSelector(): React.JSX.Element {
         </div>
       </div>
 
-      <div className="initSelectorOption card clickable" id="init_New" style={{ backgroundColor: '#FFC68B' }}>
+      <div
+        className="initSelectorOption card clickable"
+        id="init_New"
+        style={{ backgroundColor: '#FFC68B' }}
+        onClick={openExisting}
+      >
         <div className="imageContainer">
           <img src={ExistingIcon} />
         </div>
@@ -33,7 +58,11 @@ function InitSelector(): React.JSX.Element {
         </div>
       </div>
 
-      <div className="initSelectorOption card clickable" id="init_New" style={{ backgroundColor: '#64C8C8' }}>
+      <div
+        className="initSelectorOption card clickable"
+        id="init_New"
+        style={{ backgroundColor: '#64C8C8' }}
+      >
         <div className="imageContainer">
           <img src={ImportIcon} />
         </div>

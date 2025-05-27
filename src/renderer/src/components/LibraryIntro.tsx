@@ -18,7 +18,7 @@ function LibraryIntro(): React.JSX.Element {
         </h2>
         <p className="longText">
           To sync your library in the cloud, simply select a folder within a cloud location, like
-          OneDrive, or Google Drive - then choose "Open Existing" on the other device.
+          OneDrive, or Google Drive - then choose &quot;Open Existing&quot; on the other device.
         </p>
       </div>
     </div>
