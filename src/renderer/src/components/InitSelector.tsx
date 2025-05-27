@@ -29,7 +29,7 @@ function InitSelector({ setNewOpen, setConfig }: InitSelectorrProps): React.JSX.
         }}
       >
         <div className="imageContainer">
-          <img src={NewIcon} />
+          <img style={{filter:'invert(1)'}} src={NewIcon} />
         </div>
         <div className="actionContainer">
           <p className="actionText">
@@ -47,7 +47,7 @@ function InitSelector({ setNewOpen, setConfig }: InitSelectorrProps): React.JSX.
         onClick={openExisting}
       >
         <div className="imageContainer">
-          <img src={ExistingIcon} />
+          <img style={{filter:'invert(1)'}} src={ExistingIcon} />
         </div>
         <div className="actionContainer">
           <p className="actionText">
@@ -64,7 +64,7 @@ function InitSelector({ setNewOpen, setConfig }: InitSelectorrProps): React.JSX.
         style={{ backgroundColor: '#64C8C8' }}
       >
         <div className="imageContainer">
-          <img src={ImportIcon} />
+          <img style={{filter:'invert(1)'}} src={ImportIcon} />
         </div>
         <div className="actionContainer">
           <p className="actionText">

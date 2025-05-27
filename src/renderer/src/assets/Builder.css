@@ -18,31 +18,159 @@ Purple:
 #B89AE9
 */
 
+* {
+  font-family: 'SimplyMono';
+}
+
 @font-face {
   font-family: 'SimplyMono';
   src: url('./Fonts/SimplyMono-Book.ttf');
 }
 
 #libraryBuilderFg {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(2, 1fr);
-    height: 90%;
-    width: 90%;
+  height: 90%;
+  width: 90%;
+  margin-left: 5%;
+  margin-top: 2.5%;
 }
 
 .ksbListItem {
-    border: solid black 0.5vh;
-    box-shadow: -0.5vh 0.5vh 0px 0px rgba(0,0,0,1);
-    display: block;
-    font-family: 'SimplyMono';
+  border: solid black 0.5vh;
+  box-shadow: -0.5vh 0.5vh 0px 0px rgba(0, 0, 0, 1);
+  display: block;
+  font-family: 'SimplyMono';
 }
 
 .title {
-    font-family: 'SimplyMono';
+  font-family: 'SimplyMono';
 }
 
 .CriteriaTitle {
-    font-family: 'SimplyMono';
-    
+  font-family: 'SimplyMono';
+}
+
+#builderHeader {
+  background-color: #6480c8;
+  width: 100%;
+  margin: 0 0 0 0;
+  border-bottom: solid black 1vh;
+  box-shadow: -0.5vh 0.5vh 0px 0px rgba(0, 0, 0, 1);
+  height: 10%;
+  display: block;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.newLibraryClose {
+  float: right;
+  height: 80%;
+  aspect-ratio: 1 / 1;
+  border: solid black 0.5vh;
+  box-shadow: -0.5vh 0.5vh 0px 0px rgba(0, 0, 0, 1);
+  cursor: pointer;
+  font-size: 2em;
+  margin-right: 2.5%;
+}
+
+.newLibraryClose {
+  background-color: #ee8683;
+  font-family: 'SimplyMono';
+}
+
+.newLibraryClose:hover {
+  box-shadow: none;
+  cursor: pointer;
+  transform: translate(-0.5vh, 0.5vh);
+  padding-top: 0.5vh;
+  padding-right: 0.5vh;
+}
+
+.builderTitle {
+  font-family: 'SimplyMono';
+  font-size: 2em;
+  text-align: center;
+  width: 100%;
+}
+
+.libraryBuilderGrid {
+  display: grid;
+  gap: 5%;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: 4fr 1fr 4fr 1fr;
+  margin-top: 2.5%;
+  height: 80%;
+  width: 90%;
+  margin-left: 5%;
+}
+
+.ksbContainer {
+  grid-row-start: 1;
+  grid-row-end: 4;
+  border: solid black 0.5vh;
+  box-shadow: -0.5vh 0.5vh 0px 0px rgba(0, 0, 0, 1);
+}
+
+#selectLibraryFolder {
+  background-color: #ffc68b;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+#selectLibraryFolder > img {
+  height: 50%;
+  aspect-ratio: 1 / 1;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.folderStatus {
+  font-family: 'SimplyMono';
+  text-align: center;
+}
+
+#createLibraryButton {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  grid-row-end: 5;
+  grid-row-start: 3;
+}
+
+#tick {
+  width: 50%;
+  aspect-ratio: 1 / 1;
+}
+
+#loadExistingStandard {
+  background-color: #6480c8;
+  grid-row-start: 4;
+  grid-column-start: 1;
+  grid-column-end: 4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border: solid black 0.5vh;
+  box-shadow: -0.5vh 0.5vh 0px 0px rgba(0, 0, 0, 1);
+}
+
+.CriteriaTitleDiv {
+  border-bottom: black 1vh;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  
+}
+
+.addKSB {
+  border: solid black 0.5vh;
+  box-shadow: -0.5vh 0.5vh 0px 0px rgba(0, 0, 0, 1);
+  height: 50%;
+  background-color: #80B790;
+  font-size: 1em;
+  margin-right: 5px
 }

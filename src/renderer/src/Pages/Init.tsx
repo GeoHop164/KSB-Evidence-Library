@@ -16,7 +16,7 @@ function Init({ onConfigSet }: InitProps): React.JSX.Element {
     <>
       <Header></Header>
       <InitSelector setConfig={onConfigSet} setNewOpen={setNewOpen}></InitSelector>
-      <HelpButton helpOpen={helpOpen} setHelpOpen={setHelpOpen}></HelpButton>
+      {!newOpen && <HelpButton helpOpen={helpOpen} setHelpOpen={setHelpOpen}></HelpButton>}
       {helpOpen && <LibraryIntro></LibraryIntro>}
       {newOpen && <LibraryBuilder setNewOpen={setNewOpen} setConfig={onConfigSet}></LibraryBuilder>}
     </>

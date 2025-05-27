@@ -4,9 +4,10 @@ import '../assets/Builder.css'
 type CriteriaListProps = {
   ksbs: Array<string>
   title: string
+  iterator: () => void
 }
 
-function CriteriaList({ ksbs, title }: CriteriaListProps): React.JSX.Element {
+function CriteriaList({ ksbs, title, iterator }: CriteriaListProps): React.JSX.Element {
   const colours = {
     Knowledge: '#64C8C8',
     Skills: '#FFC68B',
@@ -14,8 +15,9 @@ function CriteriaList({ ksbs, title }: CriteriaListProps): React.JSX.Element {
   }
   return (
     <div className="ksbContainer">
-      <div style={{ backgroundColor: colours[title] }}>
+      <div className="CriteriaTitleDiv" style={{ backgroundColor: colours[title] }}>
         <h1 className="CriteriaTitle">{title}</h1>
+        <button className='addKSB clickable' onClick={iterator}>+</button>
       </div>
       {ksbs.map((criteria, index) => (
         <div key={index} className="ksbListItem">
