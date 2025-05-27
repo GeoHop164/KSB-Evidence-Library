@@ -2,10 +2,12 @@ import './assets/main.css'
 
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import App from './App'
+import App from './Pages/App'
+import Init from './Pages/Init'
+
+const config = await window.electron.ipcRenderer.invoke('checkConfig')
+console.log(config)
 
 createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <App />
-  </StrictMode>
+  <StrictMode>{config ? <App /> : <Init />}</StrictMode>
 )

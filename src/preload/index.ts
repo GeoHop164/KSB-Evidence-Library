@@ -1,5 +1,7 @@
-import { contextBridge } from 'electron'
+import { contextBridge, ipcRenderer } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
+
+console.log('Preload loaded')
 
 // Custom APIs for renderer
 const api = {}
@@ -11,6 +13,12 @@ if (process.contextIsolated) {
   try {
     contextBridge.exposeInMainWorld('electron', electronAPI)
     contextBridge.exposeInMainWorld('api', api)
+
+    contextBridge.exposeInMainWorld('electron', {
+      ipcRenderer: {
+        invoke: (channel: string, ...args: any[]) => ipcRenderer.invoke(channel, ...args)
+      }
+    })
   } catch (error) {
     console.error(error)
   }

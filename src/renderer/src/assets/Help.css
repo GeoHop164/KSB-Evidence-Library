@@ -1,0 +1,72 @@
+@font-face {
+  font-family: 'SimplyMono';
+  src: url('./Fonts/SimplyMono-Book.ttf');
+}
+
+#helpButton {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  margin-bottom: 1vh;
+  margin-left: 1vw;
+  border: solid black 0.5vh;
+  box-shadow: -0.5vh 0.5vh 0px 0px rgba(0, 0, 0, 1);
+  cursor: pointer;
+  z-index: 3;
+}
+
+#helpButton > p {
+  color: black;
+  font-family: 'SimplyMono';
+  user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  font-size: 2em;
+}
+
+#libraryIntro {
+  position: absolute;
+  display: block;
+  background-color: white;
+  width: 50%;
+  margin-top: 10%;
+  margin-left: 25%;
+}
+
+.title {
+  width: 100%;
+  margin: 0 0 0 0;
+  background-color: #EE8683;
+}
+
+.title > h1 {
+  color: black;
+  width: 100%;
+  text-align: center;
+  font-family: 'SimplyMono';
+}
+
+.longText {
+  color: black;
+  font-family: 'SimplyMono';
+  margin: 1% 1% 1% 1%;
+  font-size: 1.5em;
+  width: 75%;
+  display: block;
+  margin-left: 12.5%;
+}
+
+#libraryIntroBg {
+  width: 100vw;
+  height: 100vh;
+  display: block;
+  position: absolute;
+  margin: 0 0 0 0;
+  backdrop-filter: blur(10px);
+  color: black;
+  top: 0;
+  left: 0;
+  z-index: 2;
+}

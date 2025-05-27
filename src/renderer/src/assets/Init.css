@@ -1,0 +1,75 @@
+/* Colours:
+Home (Red):
+#EE8683
+
+Lights (Cyan):
+#64C8C8
+
+PC (Green):
+#80B790
+
+Apps (Yellow):
+#FFC68B
+
+Tools (Blue):
+#6480C8
+
+Purple:
+#B89AE9
+*/
+
+@font-face {
+  font-family: 'SimplyMono';
+  src: url('./Fonts/SimplyMono-Book.ttf');
+}
+
+.initSelectorOption{
+    display: grid;
+    margin-left: 5%;
+    margin-right: 5%;
+    grid-template-rows: 3fr 1fr;
+    cursor: pointer;
+}
+
+.imageContainer {
+    margin: 0 0 0 0;
+}
+
+.imageContainer > img {
+    width: 50%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-height: 50%;
+    top: 50%;
+    position: relative;
+    transform: translateY(-50%);
+}
+
+.actionContainer {
+    background-color: white;
+    text-align: center;
+}
+
+.actionText {
+    color: black;
+    display: flex;
+    width: 100%;
+    position: absolute;
+    font-family: 'SimplyMono';
+    align-items: center;
+    justify-content: center;
+    height: 25%;
+    font-size: 2em;
+}
+
+#initSelectors {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    width: 90%;
+    gap: 5%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top:5%;
+    height: 50vh;
+}

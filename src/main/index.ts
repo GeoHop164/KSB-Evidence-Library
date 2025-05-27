@@ -1,7 +1,15 @@
 import { app, shell, BrowserWindow, ipcMain } from 'electron'
-import { join } from 'path'
+import { join, dirname } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
+import { existsSync } from 'fs'
+import { promises as fs } from 'fs'
+import { fileURLToPath } from 'url'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
+
+const userDataFolder = app.getPath('userData')
 
 function createWindow(): void {
   // Create the browser window.
@@ -59,6 +67,16 @@ app.whenReady().then(() => {
     // dock icon is clicked and there are no other windows open.
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
   })
+})
+
+ipcMain.handle('checkConfig', async function () {
+  if (!existsSync(join(userDataFolder, 'lib.config'))) {
+    console.log(`Config file at ${join(userDataFolder, 'lib.config')} doesn't exist!`)
+    return false
+  } else {
+    const configData = await fs.readFile(join(userDataFolder, 'lib.config'), 'utf-8')
+    return JSON.parse(configData)
+  }
 })
 
 // Quit when all windows are closed, except on macOS. There, it's common

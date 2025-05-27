@@ -1,10 +1,10 @@
 {
   "name": "ksb-evidence-library",
-  "version": "1.0.0",
-  "description": "An Electron application with React and TypeScript",
+  "version": "0.1.0",
+  "description": "App for tracking evidence against KSBs for apprenticeships.",
   "main": "./out/main/index.js",
-  "author": "example.com",
-  "homepage": "https://electron-vite.org",
+  "author": "noetic.studio/s",
+  "homepage": "ksb-lib.noetic.studio/s",
   "scripts": {
     "format": "prettier --write .",
     "lint": "eslint --cache .",
