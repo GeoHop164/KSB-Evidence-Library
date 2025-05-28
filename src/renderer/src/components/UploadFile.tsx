@@ -65,6 +65,7 @@ function UploadFile({ setUploadVisible, criteria }: UploadFileProps): React.JSX.
             selected={startDate}
             onChange={(date) => setStartDate(date)}
             locale="en-GB"
+            dateFormat={'dd/MM/YYYY'}
           ></DatePicker>
           <h1>Description</h1>
           <textarea
