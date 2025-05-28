@@ -27,6 +27,8 @@ function createWindow(): void {
     width: 900,
     height: 670,
     show: false,
+    icon: '../assets/Icon.png',
+    title: 'KSB Library',
     autoHideMenuBar: true,
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
@@ -277,6 +279,21 @@ ipcMain.handle('logOut', async function () {
     if (err) throw err
     console.log(`Deleted ${targetFile}`)
   })
+})
+
+ipcMain.handle('getEvidenceData', async function (_event, evidenceId) {
+  const activeConfig = join(userDataFolder, '.lib-config-active')
+  if (!existsSync(activeConfig)) {
+    throw new Error('No active configuration found.')
+  } else {
+    const configData = await fs.readFile(activeConfig, 'utf-8')
+    const targetFilepath = join(JSON.parse(configData).filePath, '.lib-config')
+    if (!existsSync(targetFilepath)) {
+      throw new Error('No valid library found in active configuration.')
+    }
+    const data = await fs.readFile(targetFilepath, 'utf-8')
+    return JSON.parse(data).evidence[evidenceId] || {}
+  }
 })
 
 // Quit when all windows are closed, except on macOS. There, it's common

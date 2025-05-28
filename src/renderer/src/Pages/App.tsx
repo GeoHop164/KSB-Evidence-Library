@@ -124,7 +124,11 @@ function App({ path, onConfigSet }: AppProps): React.JSX.Element {
       ></KsbToggle>
 
       {uploadVisible && (
-        <UploadFile setUploadVisible={setUploadVisible} criteria={[k, s, b]}></UploadFile>
+        <UploadFile
+          uploadVisible={uploadVisible}
+          setUploadVisible={setUploadVisible}
+          criteria={[k, s, b]}
+        ></UploadFile>
       )}
     </>
   )

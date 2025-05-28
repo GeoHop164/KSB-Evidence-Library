@@ -1,4 +1,4 @@
-appId: com.electron.app
+appId: studio.noetic.KSB-Lib
 productName: ksb-evidence-library
 directories:
   buildResources: build
@@ -12,7 +12,7 @@ files:
 asarUnpack:
   - resources/**
 win:
-  executableName: ksb-evidence-library
+  executableName: KSB Library
 nsis:
   artifactName: ${name}-${version}-setup.${ext}
   shortcutName: ${productName}
