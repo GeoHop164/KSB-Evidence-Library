@@ -64,6 +64,8 @@ Purple:
 #logOutButton:hover {
     background-color: #EE8683;
     transform: translate(-1vh, 1vh);
+    padding-top: 1vh;
+    padding-right: 1vh;
 }
 
 #logOutButton > img {

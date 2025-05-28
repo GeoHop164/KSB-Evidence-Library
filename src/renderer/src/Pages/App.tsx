@@ -19,7 +19,7 @@ function App({ path, onConfigSet }: AppProps): React.JSX.Element {
   const [s, setS] = useState<string[]>([])
   const [b, setB] = useState<string[]>([])
 
-  const [uploadVisible, setUploadVisible] = useState<boolean>(false)
+  const [uploadVisible, setUploadVisible] = useState<string | null>(null)
 
   // const [loading, setLoading] = useState(true)
 
@@ -110,7 +110,7 @@ function App({ path, onConfigSet }: AppProps): React.JSX.Element {
             style={{ backgroundColor: '#80B790' }}
             className="appAction"
             onClick={() => {
-              setUploadVisible(true)
+              setUploadVisible('new')
             }}
           >
             Upload Evidence

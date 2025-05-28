@@ -4,11 +4,10 @@ import Close from '../assets/Upload/Close.webp'
 import KsbToggle from '../components/KsbToggle'
 import { useState } from 'react'
 import DatePicker from 'react-datepicker'
-
 import 'react-datepicker/dist/react-datepicker.css'
 
 interface UploadFileProps {
-  setUploadVisible: (visible: boolean) => void
+  setUploadVisible: (visible: string | null) => void
   criteria: string[][]
 }
 function UploadFile({ setUploadVisible, criteria }: UploadFileProps): React.JSX.Element {
@@ -16,7 +15,7 @@ function UploadFile({ setUploadVisible, criteria }: UploadFileProps): React.JSX.
   const [selectedS, setSelectedS] = useState<number[]>([])
   const [selectedB, setSelectedB] = useState<number[]>([])
 
-  const [startDate, setStartDate] = useState(new Date())
+  const [startDate, setStartDate] = useState<Date | null>(new Date())
 
   function toggle(ksbType: string, index: number): void {
     const toggleIndex = (
@@ -45,7 +44,7 @@ function UploadFile({ setUploadVisible, criteria }: UploadFileProps): React.JSX.
     }
   }
   function closeWindow(): void {
-    setUploadVisible(false)
+    setUploadVisible(null)
   }
 
   return (
