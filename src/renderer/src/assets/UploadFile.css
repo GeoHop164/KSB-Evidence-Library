@@ -1,0 +1,124 @@
+/* Colours:
+Home (Red):
+#EE8683
+
+Lights (Cyan):
+#64C8C8
+
+PC (Green):
+#80B790
+
+Apps (Yellow):
+#FFC68B
+
+Tools (Blue):
+#6480C8
+
+Purple:
+#B89AE9
+*/
+
+#uploadBackground {
+  width: 100vw;
+  height: 100vh;
+  margin: 0 0 0 0;
+  z-index: 3;
+  color: black;
+  backdrop-filter: blur(10px);
+  position: absolute;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: center;
+}
+
+#uploadGrid {
+  width: 90%;
+  height: 90%;
+  display: grid;
+  grid-template-columns: 4fr 6fr 0.5fr;
+  grid-template-rows: repeat(2 1fr);
+  gap: 2%;
+}
+
+.uploadActionButton {
+  border: solid black 1vh;
+  box-shadow: -1vh 1vh 0px 0px rgba(0, 0, 0, 1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: center;
+  grid-column-start: 3;
+  cursor: pointer;
+  user-select: none;
+}
+
+.uploadActionButton:hover {
+  transform: translate(-1vh, 1vh);
+  box-shadow: none;
+}
+
+.actionImage {
+  width: 90%;
+}
+
+#uploadClose {
+  background-color: #ee8683;
+  grid-row-start: 1;
+  grid-column-start: 3;
+}
+
+#uploadSubmit {
+  background-color: #80b790;
+}
+
+#imagePreviewContainer,
+#uploadFormWindow {
+  background-color: white;
+  border: solid black 1vh;
+  box-shadow: -1vh 1vh 0px 0px rgba(0, 0, 0, 1);
+  grid-row-start: 1;
+  grid-row-end: 3;
+}
+
+#uploadFormWindow {
+  box-sizing: border-box;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+#uploadFormWindow > #criteriaToggleGrid {
+  width: 100%;
+}
+
+#datePicker {
+  border: solid black 1vh;
+  box-shadow: -1vh 1vh 0px 0px rgba(0, 0, 0, 1);
+  background-color: #6480C8;
+  width: 100%;
+  text-align: center;
+  cursor: pointer;
+  height: 100%;
+  font-size: 1.5em;
+}
+
+#datePicker:hover {
+  transform: translate(-1vh, 1vh);
+  box-shadow: none;
+}
+
+.react-datepicker-wrapper{
+    height: 10%;
+    margin-left: 1vh;
+}
+
+.react-datepicker__input-container {
+    height: 100%;
+}

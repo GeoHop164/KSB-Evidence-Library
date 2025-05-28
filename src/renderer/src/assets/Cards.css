@@ -33,5 +33,6 @@ Purple:
 .clickable:hover {
     box-shadow: none;
     cursor: pointer;
+    /* transform: translate(-1vh, 1vh); */
     transform: translate(-0.5vh, 0.5vh);
 }
