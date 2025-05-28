@@ -12,9 +12,10 @@ interface LibraryBuilderProps {
 
 function LibraryBuilder({ setNewOpen, setConfig }: LibraryBuilderProps): React.JSX.Element {
   const [folder, setFolder] = useState(null)
-  const [knowledge, setKnowledge] = useState([])
-  const [skill, setSkill] = useState([])
-  const [behaviour, setBehaviour] = useState([])
+  const [knowledge, setKnowledge] = useState<string[]>([])
+  const [skill, setSkill] = useState<string[]>([])
+  const [behaviour, setBehaviour] = useState<string[]>([])
+  const [standard, setStandard] = useState<string>('[Custom]')
 
   async function handleFolder(): Promise<void> {
     const config = await window.electron.ipcRenderer.invoke('selectLocation')
@@ -22,16 +23,41 @@ function LibraryBuilder({ setNewOpen, setConfig }: LibraryBuilderProps): React.J
   }
 
   async function newLibrary(): Promise<void> {
+    console.log(knowledge)
+    console.log(skill)
+    console.log(behaviour)
+    if (
+      knowledge.includes('[Enter Criteria]') ||
+      skill.includes('[Enter Criteria]') ||
+      behaviour.includes('[Enter Criteria]') ||
+      knowledge.includes('') ||
+      skill.includes('') ||
+      behaviour.includes('')
+    ) {
+      alert('Make sure you enter a criteria point for each KSB!')
+      return
+    }
     const success = await window.electron.ipcRenderer.invoke('newLibrary', [
       knowledge,
       skill,
-      behaviour
+      behaviour,
+      standard,
+      folder
     ])
-    if (success) {
-      console.log(success)
+    if (success.stat) {
+      console.log(success.message)
+      setConfig(success.path)
     } else {
-      alert(success)
+      alert(success.message)
     }
+  }
+
+  async function loadStandard(): Promise<void> {
+    const [k, s, b, standard] = await window.electron.ipcRenderer.invoke('loadStandard')
+    setKnowledge(k)
+    setSkill(s)
+    setBehaviour(b)
+    setStandard(standard)
   }
 
   return (
@@ -72,7 +98,7 @@ function LibraryBuilder({ setNewOpen, setConfig }: LibraryBuilderProps): React.J
           >
             <img id="tick" src={tick}></img>
           </div>
-          <div id="loadExistingStandard" className="clickable">
+          <div id="loadExistingStandard" className="clickable" onClick={loadStandard}>
             Load existing standard file
           </div>
         </div>

@@ -34,12 +34,6 @@ Purple:
   margin-top: 2.5%;
 }
 
-.ksbListItem {
-  border: solid black 0.5vh;
-  box-shadow: -0.5vh 0.5vh 0px 0px rgba(0, 0, 0, 1);
-  display: block;
-  font-family: 'SimplyMono';
-}
 
 .title {
   font-family: 'SimplyMono';
@@ -109,6 +103,7 @@ Purple:
   grid-row-end: 4;
   border: solid black 0.5vh;
   box-shadow: -0.5vh 0.5vh 0px 0px rgba(0, 0, 0, 1);
+  /* overflow-y: scroll; */
 }
 
 #selectLibraryFolder {
@@ -163,6 +158,7 @@ Purple:
   display: flex;
   justify-content: space-between;
   align-items: center;
+  height: 10%;
   
 }
 
@@ -173,4 +169,59 @@ Purple:
   background-color: #80B790;
   font-size: 1em;
   margin-right: 5px
+}
+
+
+.ksbListItem {
+  border: solid black 0.5vh;
+  box-shadow: -0.5vh 0.5vh 0px 0px rgba(0, 0, 0, 1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'SimplyMono';
+  /* height: 10%; */
+  /* height: fit-content; */
+}
+
+.inputCriteria{
+  margin: 1% 1% 1% 1%;
+  padding: 0 0 0 0;
+  width: 100%;
+  /* height: 90%; */
+  /* height: fit-content; */
+  border-style: none;
+  height: auto;
+}
+
+.removeCriteria {
+  background-color: #ee8683;
+  height: 30px;
+  margin-right: 2%;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border: solid black 0.25vh;
+  box-shadow: -0.25vh 0.25vh 0px 0px rgba(0, 0, 0, 1);
+  cursor: pointer;
+}
+
+.removeCriteria:hover {
+  box-shadow: none;
+  transform: translate(-0.25vh, 0.25vh);
+}
+
+.ksbListContainer{
+  width: 100%;
+  overflow-y: scroll;
+  height: 90%;
+}
+
+.criteriaNumber {
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }

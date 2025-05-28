@@ -163,6 +163,62 @@ ipcMain.handle('openExisting', async function () {
   }
 })
 
+ipcMain.handle('loadStandard', async function () {
+  const result = await dialog.showOpenDialog(BrowserWindow.getFocusedWindow()!, {
+    title: 'Select a File',
+    buttonLabel: 'Open',
+    properties: ['openFile'],
+    filters: [{ name: 'Custom Files', extensions: ['KSB-standard'] }]
+  })
+
+  if (result.canceled || result.filePaths.length === 0) {
+    return null
+  }
+
+  const filePath = result.filePaths[0]
+  try {
+    const fileContent = await fs.readFile(filePath, 'utf-8')
+    const jsonData = JSON.parse(fileContent)
+    const criteria = jsonData.criteria
+    console.log(criteria)
+    return [criteria.knowledge, criteria.skill, criteria.behaviour, jsonData.standard]
+  } catch (error) {
+    console.error('Failed to read or parse file:', error)
+    return { error: 'Failed to load file' }
+  }
+})
+
+ipcMain.handle(
+  'newLibrary',
+  async function (_event, [knowledge, skill, behaviour, standard, filePath]) {
+    if (knowledge.length > 0 && skill.length > 0 && behaviour.length > 0) {
+      const configFile = {
+        standard: standard,
+        criteria: {
+          knowledge: knowledge,
+          skill: skill,
+          behaviour: behaviour
+        },
+        filePath: filePath
+      }
+      await fs.writeFile(join(userDataFolder, 'lib.config'), JSON.stringify(configFile))
+      configFile['userData'] = {}
+      await fs.writeFile(join(filePath, '.lib-config'), JSON.stringify(configFile))
+      return {
+        stat: true,
+        message: 'Library initialised!',
+        path: filePath
+      }
+    } else {
+      return {
+        stat: false,
+        message: 'At least one K, S, and B are needed!',
+        path: null
+      }
+    }
+  }
+)
+
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
 // explicitly with Cmd + Q.
