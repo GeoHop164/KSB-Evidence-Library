@@ -80,6 +80,23 @@ app.whenReady().then(() => {
   })
 })
 
+// async function evidenceIdExists(evidenceID: string): Promise<boolean> {
+//   const activeConfig = join(userDataFolder, '.lib-config-active')
+//   if (!existsSync(activeConfig)) {
+//     throw new Error('No active configuration found.')
+//   } else {
+//     const configData = await fs.readFile(activeConfig, 'utf-8')
+//     const targetFilepath = join(JSON.parse(configData).filePath, '.lib-config')
+//     if (!existsSync(targetFilepath)) {
+//       throw new Error('No valid library found in active configuration.')
+//     }
+//     const data = await fs.readFile(targetFilepath, 'utf-8')
+//     const parsed = JSON.parse(data)
+//     const evidence = parsed.evidence
+//     return Object.prototype.hasOwnProperty.call(evidence, evidenceID)
+//   }
+// }
+
 async function getActiveLibrary(): Promise<null | string> {
   const activeConfigPath = join(userDataFolder, '.lib-config-active')
   if (!existsSync(join(userDataFolder, '.lib-config-active'))) {
@@ -357,8 +374,21 @@ ipcMain.handle('uploadImage', async function (): Promise<string | null> {
 })
 
 ipcMain.handle('submitEvidence', async (_event, formData): Promise<object> => {
-  const [selectedK, selectedS, selectedB, selectedImage, description, evidenceDate] = formData
-  const evidenceID = randomUUID()
+  const [
+    selectedK,
+    selectedS,
+    selectedB,
+    selectedImage,
+    description,
+    evidenceDate,
+    submittedEvidenceID
+  ] = formData
+  let evidenceID
+  if (submittedEvidenceID == 'new') {
+    evidenceID = randomUUID()
+  } else {
+    evidenceID = submittedEvidenceID
+  }
   const activeDir = await getActiveLibrary()
   if (!activeDir) {
     return {

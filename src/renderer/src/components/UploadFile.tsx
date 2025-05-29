@@ -108,7 +108,8 @@ function UploadFile({
       selectedB,
       selectedImage,
       description,
-      evidenceDate
+      evidenceDate,
+      uploadVisible
     ])
     if (result.success) {
       console.log('Evidence Submitted')
