@@ -30,19 +30,24 @@ function UploadFile({
   const [selectedS, setSelectedS] = useState<number[]>([])
   const [selectedB, setSelectedB] = useState<number[]>([])
   const [description, setDescription] = useState<string>('')
-  const [startDate, setStartDate] = useState<Date | null>(new Date())
+  const [evidenceDate, setEvidenceDate] = useState<Date | null>(new Date())
   const [selectedImage, setSelectedImage] = useState<string | null>(null)
   const [imageUploading, setImageUploading] = useState<boolean>(false)
 
   useEffect(() => {
     if (uploadVisible && uploadVisible !== 'new') {
+      setImageUploading(true)
+      window.electron.ipcRenderer.invoke('getEvidenceImage', uploadVisible).then((data: string) => {
+        setSelectedImage(data)
+        setImageUploading(false)
+      })
       window.electron.ipcRenderer
         .invoke('getEvidenceData', uploadVisible)
         .then((data: ExistingData) => {
           setSelectedK(data.knowledge || [])
           setSelectedS(data.skill || [])
           setSelectedB(data.behaviour || [])
-          setStartDate(data.evidenceDate || new Date())
+          setEvidenceDate(data.evidenceDate || new Date())
           setDescription(data.description || '')
         })
     }
@@ -86,6 +91,38 @@ function UploadFile({
     })
   }
 
+  async function uploadEvidence(): Promise<void> {
+    console.log('Submitting:')
+    console.log([selectedK, selectedS, selectedB, selectedImage, description, evidenceDate])
+    if (!selectedImage) {
+      alert('Please upload an image first!')
+      return
+    }
+    if (JSON.stringify([selectedK, selectedS, selectedB]) == JSON.stringify([[], [], []])) {
+      alert("You haven't selected any KSBs")
+      return
+    }
+    const result = await window.electron.ipcRenderer.invoke('submitEvidence', [
+      selectedK,
+      selectedS,
+      selectedB,
+      selectedImage,
+      description,
+      evidenceDate
+    ])
+    if (result.success) {
+      console.log('Evidence Submitted')
+      setUploadVisible(null)
+      setSelectedK([])
+      setSelectedS([])
+      setSelectedB([])
+      setEvidenceDate(null)
+      setDescription('')
+    } else {
+      alert(result.message)
+    }
+  }
+
   return (
     <div id="uploadBackground">
       <div id="uploadGrid">
@@ -114,8 +151,8 @@ function UploadFile({
           <h1>Evidence Date</h1>
           <DatePicker
             id="datePicker"
-            selected={startDate}
-            onChange={(date) => setStartDate(date)}
+            selected={evidenceDate}
+            onChange={(date) => setEvidenceDate(date)}
             dateFormat={'dd/MM/YYYY'}
           ></DatePicker>
           <h1>Description</h1>
@@ -137,7 +174,7 @@ function UploadFile({
         <div className="uploadActionButton" id="uploadClose" onClick={closeWindow}>
           <img className="actionImage" src={Close} />
         </div>
-        <div className="uploadActionButton" id="uploadSubmit">
+        <div className="uploadActionButton" id="uploadSubmit" onClick={uploadEvidence}>
           <img className="actionImage" src={Tick} />
         </div>
       </div>

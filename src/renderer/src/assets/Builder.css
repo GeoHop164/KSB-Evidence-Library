@@ -34,7 +34,6 @@ Purple:
   margin-top: 2.5%;
 }
 
-
 .title {
   font-family: 'SimplyMono';
 }
@@ -155,22 +154,21 @@ Purple:
 
 .CriteriaTitleDiv {
   border-bottom: black 1vh;
+  border-style: solid;
   display: flex;
   justify-content: space-between;
   align-items: center;
   height: 10%;
-  
 }
 
 .addKSB {
   border: solid black 0.5vh;
   box-shadow: -0.5vh 0.5vh 0px 0px rgba(0, 0, 0, 1);
-  height: 50%;
-  background-color: #80B790;
+  height: 70%;
+  background-color: #80b790;
   font-size: 1em;
-  margin-right: 5px
+  margin-right: 5px;
 }
-
 
 .ksbListItem {
   border: solid black 0.5vh;
@@ -179,11 +177,11 @@ Purple:
   justify-content: space-between;
   align-items: center;
   font-family: 'SimplyMono';
-  /* height: 10%; */
-  /* height: fit-content; */
+  background-color: white;
+  margin: 10px 10px 10px 10px ;
 }
 
-.inputCriteria{
+.inputCriteria {
   margin: 1% 1% 1% 1%;
   padding: 0 0 0 0;
   width: 100%;
@@ -212,14 +210,20 @@ Purple:
   transform: translate(-0.25vh, 0.25vh);
 }
 
-.ksbListContainer{
+.ksbListContainer {
   width: 100%;
   overflow-y: scroll;
   height: 90%;
+  background-image:
+    radial-gradient(#00000010 1px, transparent 0), radial-gradient(#000 1px, transparent 0);
+  background-size: 10px 10px;
+  background-position:
+    0 0,
+    5px 5px;
+  background-color: #fdf4e8;
 }
 
 .criteriaNumber {
-  
   display: flex;
   align-items: center;
   justify-content: center;

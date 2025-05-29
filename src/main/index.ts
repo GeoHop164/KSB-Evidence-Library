@@ -5,8 +5,9 @@ import icon from '../../resources/icon.png?asset'
 import { existsSync, mkdirSync, readdirSync, unlink } from 'fs'
 import { promises as fs } from 'fs'
 import { fileURLToPath } from 'url'
-import { exec } from 'child_process'
+// import { exec } from 'child_process'
 import sharp from 'sharp'
+import { randomUUID } from 'crypto'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -78,6 +79,20 @@ app.whenReady().then(() => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
   })
 })
+
+async function getActiveLibrary(): Promise<null | string> {
+  const activeConfigPath = join(userDataFolder, '.lib-config-active')
+  if (!existsSync(join(userDataFolder, '.lib-config-active'))) {
+    return null
+  }
+  try {
+    const configData = await fs.readFile(activeConfigPath, 'utf-8')
+    const data = JSON.parse(configData)
+    return data.filePath
+  } catch {
+    return null
+  }
+}
 
 async function isValidDir(folderpath: string): Promise<boolean> {
   const sidecar = join(folderpath, '.lib-config')
@@ -228,15 +243,15 @@ ipcMain.handle(
       configFile['evidence'] = {}
       await fs.writeFile(join(filePath, '.lib-config'), JSON.stringify(configFile, null, 4))
 
-      if (process.platform === 'win32') {
-        exec(`attrib +H "${join(filePath, '.lib-config')}"`, (error) => {
-          if (error) {
-            console.error('Failed to hide file:', error)
-          } else {
-            console.log('File hidden successfully.')
-          }
-        })
-      }
+      // if (process.platform === 'win32') {
+      //   exec(`attrib +H "${join(filePath, '.lib-config')}"`, (error) => {
+      //     if (error) {
+      //       console.error('Failed to hide file:', error)
+      //     } else {
+      //       console.log('File hidden successfully.')
+      //     }
+      //   })
+      // }
 
       return {
         stat: true,
@@ -292,7 +307,28 @@ ipcMain.handle('getEvidenceData', async function (_event, evidenceId) {
       throw new Error('No valid library found in active configuration.')
     }
     const data = await fs.readFile(targetFilepath, 'utf-8')
-    return JSON.parse(data).evidence[evidenceId] || {}
+    const parsed = JSON.parse(data)
+    const evidence = parsed.evidence[evidenceId].criteria
+    const obj = {
+      ...evidence,
+      description: parsed.evidence[evidenceId].description,
+      evidenceDate: parsed.evidence[evidenceId].evidenceDate
+    }
+    return obj
+  }
+})
+
+ipcMain.handle('getEvidenceImage', async function (_event, evidenceID) {
+  const activeConfig = join(userDataFolder, '.lib-config-active')
+  if (!existsSync(activeConfig)) {
+    throw new Error('No active configuration found.')
+  } else {
+    const configData = await fs.readFile(activeConfig, 'utf-8')
+    const activeDir = JSON.parse(configData).filePath
+    const imagePath = join(activeDir, evidenceID)
+    const imageBuffer = await fs.readFile(imagePath)
+    const base64 = `data:image/png;base64,${imageBuffer.toString('base64')}`
+    return base64
   }
 })
 
@@ -317,6 +353,101 @@ ipcMain.handle('uploadImage', async function (): Promise<string | null> {
   } catch (error) {
     console.error('Error converting image:', error)
     return null
+  }
+})
+
+ipcMain.handle('submitEvidence', async (_event, formData): Promise<object> => {
+  const [selectedK, selectedS, selectedB, selectedImage, description, evidenceDate] = formData
+  const evidenceID = randomUUID()
+  const activeDir = await getActiveLibrary()
+  if (!activeDir) {
+    return {
+      success: false,
+      message: 'No active library found'
+    }
+  }
+  const evidenceObj = {
+    criteria: {
+      knowledge: selectedK,
+      skill: selectedS,
+      behaviour: selectedB
+    },
+    description: description,
+    evidenceDate: evidenceDate
+  }
+  const base64Data = selectedImage.replace(/^data:image\/\w+;base64,/, '')
+  const buffer = Buffer.from(base64Data, 'base64')
+  try {
+    fs.writeFile(join(activeDir, evidenceID), buffer)
+  } catch {
+    return {
+      success: false,
+      message: `Could not save image file to ${join(activeDir, evidenceID)}`
+    }
+  }
+  try {
+    const libConfigFile = await fs.readFile(join(activeDir, '.lib-config'), 'utf-8')
+    const libConfig = JSON.parse(libConfigFile)
+    libConfig.evidence[evidenceID] = evidenceObj
+    fs.writeFile(join(activeDir, '.lib-config'), JSON.stringify(libConfig, null, 4))
+  } catch {
+    return {
+      success: false,
+      message: `Could not save database at ${join(activeDir, '.lib-config')}`
+    }
+  }
+  return { success: true }
+})
+
+interface EvidenceCriteria {
+  knowledge: number[]
+  skill: number[]
+  behaviour: number[]
+}
+
+interface EvidenceEntry {
+  criteria: EvidenceCriteria
+  description: string
+  evidenceDate: string
+}
+
+interface LibraryConfig {
+  evidence: Record<string, EvidenceEntry>
+}
+
+ipcMain.handle('getImages', async (_event, critera): Promise<object> => {
+  const [k, s, b] = critera
+  const activeDir = await getActiveLibrary()
+  if (activeDir) {
+    const libConfigFile = await fs.readFile(join(activeDir, '.lib-config'), 'utf-8')
+    const libConfig = JSON.parse(libConfigFile) as LibraryConfig
+    const evidenceData = libConfig.evidence
+
+    const result: Record<string, string> = {}
+
+    for (const [id, evidence] of Object.entries(evidenceData)) {
+      const { knowledge = [], skill = [], behaviour = [] } = evidence.criteria
+
+      const matches =
+        k.every((val: number) => knowledge.includes(val)) &&
+        s.every((val: number) => skill.includes(val)) &&
+        b.every((val: number) => behaviour.includes(val))
+
+      if (matches) {
+        try {
+          const imagePath = join(activeDir, id)
+          const imageBuffer = await fs.readFile(imagePath)
+          const base64 = `data:image/png;base64,${imageBuffer.toString('base64')}`
+          result[id] = base64
+        } catch (err) {
+          console.warn(`Failed to read image for ID ${id}:`, err)
+        }
+      }
+    }
+
+    return result
+  } else {
+    return {}
   }
 })
 

@@ -64,8 +64,6 @@ Purple:
 #logOutButton:hover {
     background-color: #EE8683;
     transform: translate(-1vh, 1vh);
-    padding-top: 1vh;
-    padding-right: 1vh;
 }
 
 #logOutButton > img {
@@ -85,7 +83,7 @@ Purple:
   align-content: center;
   justify-content: space-around;
   align-items: center;
-  aspect-ratio: 2 / 1;
+  aspect-ratio: 1 / 1;
   float: right;
   right: 0;
   color: black;
@@ -108,4 +106,8 @@ Purple:
     align-content: center;
     width: 90%;
     gap: 5%;
+}
+
+.actionButton {
+  height: 50%;
 }

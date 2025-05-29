@@ -5,7 +5,12 @@ import Header from '../components/Header'
 import KsbToggle from '../components/KsbToggle'
 import LogOut from '../components/LogOut'
 import UploadFile from '../components/UploadFile'
+import ImageGrid from '../components/ImageGrid'
+import { Tooltip } from 'react-tooltip'
 import { preload } from 'react-dom'
+import iconClear from '../assets/MainActions/clear.webp'
+import iconExport from '../assets/MainActions/export.webp'
+import iconUpload from '../assets/MainActions/upload.webp'
 
 interface AppProps {
   path: string
@@ -13,6 +18,7 @@ interface AppProps {
 }
 
 function App({ path, onConfigSet }: AppProps): React.JSX.Element {
+  const [loading, setLoading] = useState<boolean>(true)
   const [selectedK, setSelectedK] = useState<number[]>([])
   const [selectedS, setSelectedS] = useState<number[]>([])
   const [selectedB, setSelectedB] = useState<number[]>([])
@@ -103,21 +109,30 @@ function App({ path, onConfigSet }: AppProps): React.JSX.Element {
               setSelectedS([])
               setSelectedB([])
             }}
+            data-tooltip-id="clear-filter"
           >
-            Clear&nbsp;Filters
+            <img src={iconClear} className="actionButton"></img>
           </div>
-          <div style={{ backgroundColor: '#6480C8' }} className="appAction">
-            Export
+          <Tooltip id="clear-filter">Clear Filters</Tooltip>
+          <div
+            style={{ backgroundColor: '#6480C8' }}
+            className="appAction"
+            data-tooltip-id="export"
+          >
+            <img src={iconExport} className="actionButton"></img>
           </div>
+          <Tooltip id="export">Export</Tooltip>
           <div
             style={{ backgroundColor: '#80B790' }}
             className="appAction"
             onClick={() => {
               setUploadVisible('new')
             }}
+            data-tooltip-id="upload"
           >
-            Upload&nbsp;Evidence
+            <img src={iconUpload} className="actionButton"></img>
           </div>
+          <Tooltip id="upload">Upload Evidence</Tooltip>
         </div>
       </div>
       <KsbToggle
@@ -125,6 +140,13 @@ function App({ path, onConfigSet }: AppProps): React.JSX.Element {
         criteria={[k, s, b]}
         selected={[selectedK, selectedS, selectedB]}
       ></KsbToggle>
+
+      <ImageGrid
+        criteria={[selectedK, selectedS, selectedB]}
+        loading={loading}
+        setLoading={setLoading}
+        imageClicked={setUploadVisible}
+      ></ImageGrid>
 
       {uploadVisible && (
         <UploadFile

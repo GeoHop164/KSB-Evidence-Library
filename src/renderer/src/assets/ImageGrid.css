@@ -1,0 +1,33 @@
+#imageGrid {
+    display: grid;
+    gap: 1%;
+    grid-template-columns: repeat(6, 1fr);
+    width: 90%;
+    overflow-y: scroll;
+}
+
+.evidenceImageContainer {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border: solid black 0.5vh;
+  box-shadow: -0.5vh 0.5vh 0px 0px rgba(0, 0, 0, 1);
+  background-color: white;
+  cursor: pointer;
+}
+
+.evidenceImageContainer:hover {
+  box-shadow: none;
+  transform: translate(-0.25vh, 0.25vh);
+}
+
+.evidenceImage {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  object-fit: cover;
+  transform: translate(-50%, -50%);
+  margin: 0 0 0 0;
+}

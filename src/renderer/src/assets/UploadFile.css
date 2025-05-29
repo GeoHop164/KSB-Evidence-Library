@@ -143,8 +143,6 @@ div {
 .uploadImageButton:hover {
   transform: translate(-1vh, 1vh);
   box-shadow: none;
-  padding-top: 1vh;
-  padding-right: 1vh;
 }
 
 #imagePreviewContainer {
