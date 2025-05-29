@@ -25,7 +25,8 @@
     "@electron-toolkit/utils": "^4.0.0",
     "electron-updater": "^6.3.9",
     "react-datepicker": "^8.4.0",
-    "react-tooltip": "^5.28.1"
+    "react-tooltip": "^5.28.1",
+    "sharp": "^0.34.2"
   },
   "devDependencies": {
     "@electron-toolkit/eslint-config-prettier": "^3.0.0",

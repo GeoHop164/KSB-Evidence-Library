@@ -6,6 +6,7 @@ import { existsSync, mkdirSync, readdirSync, unlink } from 'fs'
 import { promises as fs } from 'fs'
 import { fileURLToPath } from 'url'
 import { exec } from 'child_process'
+import sharp from 'sharp'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -292,6 +293,30 @@ ipcMain.handle('getEvidenceData', async function (_event, evidenceId) {
     }
     const data = await fs.readFile(targetFilepath, 'utf-8')
     return JSON.parse(data).evidence[evidenceId] || {}
+  }
+})
+
+ipcMain.handle('uploadImage', async function (): Promise<string | null> {
+  const result = await dialog.showOpenDialog({
+    title: 'Select an image',
+    filters: [{ name: 'Images', extensions: ['jpg', 'jpeg', 'png', 'webp', 'bmp'] }],
+    properties: ['openFile']
+  })
+
+  if (result.canceled || result.filePaths.length === 0) {
+    return null
+  }
+
+  const filePath = result.filePaths[0]
+
+  try {
+    const buffer = await sharp(filePath).png().toBuffer()
+
+    const base64 = buffer.toString('base64')
+    return `data:image/png;base64,${base64}`
+  } catch (error) {
+    console.error('Error converting image:', error)
+    return null
   }
 })
 

@@ -26,7 +26,7 @@ function Header({ main = false }: HeaderProps): React.JSX.Element {
       }}
     >
       <img src={Logo} style={{ height: '50%', marginRight: '10%' }}></img>
-      <h1 style={{ color: 'black' }}>KSB Library</h1>
+      <h1 style={{ color: 'black' }}>KSB&nbsp;Library</h1>
     </div>
   )
 }

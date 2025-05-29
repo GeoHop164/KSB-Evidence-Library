@@ -5,6 +5,7 @@ import Header from '../components/Header'
 import KsbToggle from '../components/KsbToggle'
 import LogOut from '../components/LogOut'
 import UploadFile from '../components/UploadFile'
+import { preload } from 'react-dom'
 
 interface AppProps {
   path: string
@@ -30,6 +31,8 @@ function App({ path, onConfigSet }: AppProps): React.JSX.Element {
   }
 
   useEffect(() => {
+    preload('../assets/Upload/Tick.webp', { as: 'image' })
+    preload('../assets/Upload/Close.webp', { as: 'image' })
     async function fetchCriteria(): Promise<void> {
       const result = await window.electron.ipcRenderer.invoke('getCriteria', path)
       if (result.ok) {
@@ -101,10 +104,10 @@ function App({ path, onConfigSet }: AppProps): React.JSX.Element {
               setSelectedB([])
             }}
           >
-            Clear Filters
+            Clear&nbsp;Filters
           </div>
           <div style={{ backgroundColor: '#6480C8' }} className="appAction">
-            Export All
+            Export
           </div>
           <div
             style={{ backgroundColor: '#80B790' }}
@@ -113,7 +116,7 @@ function App({ path, onConfigSet }: AppProps): React.JSX.Element {
               setUploadVisible('new')
             }}
           >
-            Upload Evidence
+            Upload&nbsp;Evidence
           </div>
         </div>
       </div>

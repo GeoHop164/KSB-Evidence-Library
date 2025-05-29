@@ -2,6 +2,7 @@ import '../assets/UploadFile.css'
 import Tick from '../assets/Upload/Tick.webp'
 import Close from '../assets/Upload/Close.webp'
 import KsbToggle from '../components/KsbToggle'
+import loading from '../assets/loading.svg'
 import { useEffect, useState } from 'react'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
@@ -30,6 +31,8 @@ function UploadFile({
   const [selectedB, setSelectedB] = useState<number[]>([])
   const [description, setDescription] = useState<string>('')
   const [startDate, setStartDate] = useState<Date | null>(new Date())
+  const [selectedImage, setSelectedImage] = useState<string | null>(null)
+  const [imageUploading, setImageUploading] = useState<boolean>(false)
 
   useEffect(() => {
     if (uploadVisible && uploadVisible !== 'new') {
@@ -75,10 +78,32 @@ function UploadFile({
     setUploadVisible(null)
   }
 
+  function handleImageClick(): void {
+    setImageUploading(true)
+    window.electron.ipcRenderer.invoke('uploadImage').then((data: string) => {
+      setSelectedImage(data)
+      setImageUploading(false)
+    })
+  }
+
   return (
     <div id="uploadBackground">
       <div id="uploadGrid">
-        <div id="imagePreviewContainer"></div>
+        <div id="imagePreviewContainerContainer">
+          <div id="imagePreviewContainer" className={!selectedImage ? 'noImage' : ''}>
+            {!selectedImage &&
+              (!imageUploading ? (
+                <div className="uploadImageButton" onClick={handleImageClick}>
+                  Upload Image
+                </div>
+              ) : (
+                <img id="loadingIcon" src={loading} />
+              ))}
+            {selectedImage && (
+              <img id="loadedImage" src={selectedImage} onClick={handleImageClick}></img>
+            )}
+          </div>
+        </div>
         <div id="uploadFormWindow">
           <h1>Criteria</h1>
           <KsbToggle
@@ -91,7 +116,6 @@ function UploadFile({
             id="datePicker"
             selected={startDate}
             onChange={(date) => setStartDate(date)}
-            locale="en-GB"
             dateFormat={'dd/MM/YYYY'}
           ></DatePicker>
           <h1>Description</h1>
@@ -105,6 +129,7 @@ function UploadFile({
               resize: 'none',
               fontSize: '2em'
             }}
+            placeholder="What the image shows, how it meets the criteria, etc."
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           ></textarea>

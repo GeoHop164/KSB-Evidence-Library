@@ -18,6 +18,10 @@ Purple:
 #B89AE9
 */
 
+div {
+  user-select: none;
+}
+
 #uploadBackground {
   width: 100vw;
   height: 100vh;
@@ -101,7 +105,7 @@ Purple:
 #datePicker {
   border: solid black 1vh;
   box-shadow: -1vh 1vh 0px 0px rgba(0, 0, 0, 1);
-  background-color: #6480C8;
+  background-color: #6480c8;
   width: 100%;
   text-align: center;
   cursor: pointer;
@@ -114,11 +118,68 @@ Purple:
   box-shadow: none;
 }
 
-.react-datepicker-wrapper{
-    height: 10%;
-    margin-left: 1vh;
+.react-datepicker-wrapper {
+  height: 10%;
+  margin-left: 1vh;
 }
 
 .react-datepicker__input-container {
-    height: 100%;
+  height: 100%;
+}
+
+.uploadImageButton {
+  background-color: #ffc68b;
+  width: 50%;
+  height: 10%;
+  border: solid black 1vh;
+  box-shadow: -1vh 1vh 0px 0px rgba(0, 0, 0, 1);
+  display: block;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  cursor: pointer;
+}
+
+.uploadImageButton:hover {
+  transform: translate(-1vh, 1vh);
+  box-shadow: none;
+  padding-top: 1vh;
+  padding-right: 1vh;
+}
+
+#imagePreviewContainer {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  background-image:
+    radial-gradient(#00000010 1px, transparent 0), radial-gradient(#000 1px, transparent 0);
+  background-size: 10px 10px;
+  background-position:
+    0 0,
+    5px 5px;
+}
+
+#imagePreviewContainer.noImage {
+  height: 100%;
+}
+
+#imagePreviewContainerContainer {
+  height: 100%;
+  grid-row-start: 1;
+  grid-row-end: 3;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  cursor: pointer;
+}
+
+#loadedImage {
+  max-width: 100%;
+  max-height: 90vh;
+}
+
+#loadingIcon {
+  width: 25%;
+  opacity: 0.5;
 }
