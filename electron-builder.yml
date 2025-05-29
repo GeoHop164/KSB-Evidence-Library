@@ -1,5 +1,5 @@
 appId: studio.noetic.KSB-Lib
-productName: ksb-evidence-library
+productName: KSB Library
 directories:
   buildResources: build
 files:
@@ -13,6 +13,7 @@ asarUnpack:
   - resources/**
 win:
   executableName: KSB Library
+  icon: build/icon.ico
 nsis:
   artifactName: ${name}-${version}-setup.${ext}
   shortcutName: ${productName}

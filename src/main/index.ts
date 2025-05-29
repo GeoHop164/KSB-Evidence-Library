@@ -22,12 +22,11 @@ const defaultConfig = {
 }
 
 function createWindow(): void {
-  // Create the browser window.
   const mainWindow = new BrowserWindow({
     width: 900,
     height: 670,
     show: false,
-    icon: '../assets/Icon.png',
+    icon: join(__dirname, '../../build/icon.ico'),
     title: 'KSB Library',
     autoHideMenuBar: true,
     ...(process.platform === 'linux' ? { icon } : {}),
