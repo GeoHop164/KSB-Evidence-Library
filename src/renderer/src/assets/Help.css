@@ -47,26 +47,23 @@ Purple:
 }
 
 #helpButton:hover {
-    box-shadow: none;
-    cursor: pointer;
-    transform: translate(-0.5vh, 0.5vh);
-    padding-top: 0.5vh;
-    padding-right: 0.5vh;
+  box-shadow: none;
+  cursor: pointer;
+  transform: translate(-0.5vh, 0.5vh);
 }
 
-#libraryIntro, #libraryBuilderFg {
+#libraryIntro,
+#libraryBuilderFg {
   position: absolute;
   display: block;
   background-color: white;
-  width: 50%;
-  margin-top: 10%;
-  margin-left: 25%;
+  max-width: 90%;
 }
 
 .title {
   width: 100%;
   margin: 0 0 0 0;
-  background-color: #EE8683;
+  background-color: #ee8683;
 }
 
 .title > h1 {
@@ -80,16 +77,17 @@ Purple:
   color: black;
   font-family: 'SimplyMono';
   margin: 1% 1% 1% 1%;
-  font-size: 1.5em;
+  font-size: 1em;
   width: 75%;
   display: block;
   margin-left: 12.5%;
 }
 
-#libraryIntroBg, #libraryBuilderBg {
+#libraryIntroBg,
+#libraryBuilderBg {
   width: 100vw;
   height: 100vh;
-  display: block;
+  display: flex;
   position: absolute;
   margin: 0 0 0 0;
   backdrop-filter: blur(10px);
@@ -97,4 +95,6 @@ Purple:
   top: 0;
   left: 0;
   z-index: 2;
+  align-items: center;
+  justify-content: center;
 }

@@ -16,7 +16,7 @@ function Header({ main = false }: HeaderProps): React.JSX.Element {
         display: 'flex',
         marginTop: '1%',
         height: main ? '10vh' : '15vh',
-        width: '25%',
+        minWidth: '25%',
         boxShadow: '-1vh 1vh 0px 0px rgba(0, 0, 0, 1)',
         flexDirection: 'row',
         alignContent: 'center',
