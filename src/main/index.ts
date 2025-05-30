@@ -23,6 +23,8 @@ const defaultConfig = {
   }
 }
 
+let activeConfig
+
 function createWindow(): void {
   const mainWindow = new BrowserWindow({
     width: 900,
@@ -98,17 +100,18 @@ app.whenReady().then(() => {
 // }
 
 async function getActiveLibrary(): Promise<null | string> {
-  const activeConfigPath = join(userDataFolder, '.lib-config-active')
-  if (!existsSync(join(userDataFolder, '.lib-config-active'))) {
-    return null
-  }
-  try {
-    const configData = await fs.readFile(activeConfigPath, 'utf-8')
-    const data = JSON.parse(configData)
-    return data.filePath
-  } catch {
-    return null
-  }
+  // const activeConfigPath = join(userDataFolder, '.lib-config-active')
+  // if (!existsSync(join(userDataFolder, '.lib-config-active'))) {
+  //   return null
+  // }
+  // try {
+  //   const configData = await fs.readFile(activeConfigPath, 'utf-8')
+  //   const data = JSON.parse(configData)
+  //   return data.filePath
+  // } catch {
+  //   return null
+  // }
+  return activeConfig ? activeConfig : null
 }
 
 async function isValidDir(folderpath: string): Promise<boolean> {
@@ -135,6 +138,7 @@ ipcMain.handle('checkConfig', async function () {
     const configData = await fs.readFile(join(userDataFolder, '.lib-config-active'), 'utf-8')
     const data = JSON.parse(configData)
     console.log(`Found filePath in config: ${data.filePath}`)
+    activeConfig = data.filePath
     if (data.filePath != null || data.filePath != '') {
       return data.filePath
     } else {
@@ -185,6 +189,7 @@ ipcMain.handle('openExisting', async function () {
   const selectedValidDir = await isValidDir(selectedPath)
   const newConfig = defaultConfig
   newConfig.filePath = selectedPath
+  activeConfig = selectedPath
   if (selectedValidDir) {
     fs.writeFile(join(userDataFolder, '.lib-config-active'), JSON.stringify(newConfig, null, 4))
     return {
@@ -307,6 +312,7 @@ ipcMain.handle('getCriteria', async function (_event, path) {
 
 ipcMain.handle('logOut', async function () {
   const targetFile = join(userDataFolder, '.lib-config-active')
+  activeConfig = null
   unlink(targetFile, (err) => {
     if (err) throw err
     console.log(`Deleted ${targetFile}`)
@@ -445,40 +451,70 @@ interface LibraryConfig {
   evidence: Record<string, EvidenceEntry>
 }
 
-ipcMain.handle('getImages', async (_event, critera): Promise<object> => {
-  const [k, s, b] = critera
+// ipcMain.handle('getImages', async (_event, critera): Promise<object> => {
+//   const [k, s, b] = critera
+//   const activeDir = await getActiveLibrary()
+//   if (activeDir) {
+//     const libConfigFile = await fs.readFile(join(activeDir, '.lib-config'), 'utf-8')
+//     const libConfig = JSON.parse(libConfigFile) as LibraryConfig
+//     const evidenceData = libConfig.evidence
+
+//     const result: Record<string, string> = {}
+
+//     for (const [id, evidence] of Object.entries(evidenceData)) {
+//       const { knowledge = [], skill = [], behaviour = [] } = evidence.criteria
+
+//       const matches =
+//         k.every((val: number) => knowledge.includes(val)) &&
+//         s.every((val: number) => skill.includes(val)) &&
+//         b.every((val: number) => behaviour.includes(val))
+
+//       if (matches) {
+//         try {
+//           const imagePath = join(activeDir, id)
+//           const imageBuffer = await fs.readFile(imagePath)
+//           const base64 = `data:image/png;base64,${imageBuffer.toString('base64')}`
+//           result[id] = base64
+//         } catch (err) {
+//           console.warn(`Failed to read image for ID ${id}:`, err)
+//         }
+//       }
+//     }
+
+//     return result
+//   } else {
+//     return {}
+//   }
+// })
+
+ipcMain.handle('getImages', async (): Promise<object> => {
   const activeDir = await getActiveLibrary()
-  if (activeDir) {
-    const libConfigFile = await fs.readFile(join(activeDir, '.lib-config'), 'utf-8')
-    const libConfig = JSON.parse(libConfigFile) as LibraryConfig
-    const evidenceData = libConfig.evidence
+  if (!activeDir) return {}
 
-    const result: Record<string, string> = {}
+  const libConfigFile = await fs.readFile(join(activeDir, '.lib-config'), 'utf-8')
+  const libConfig = JSON.parse(libConfigFile) as LibraryConfig
+  const evidenceData = libConfig.evidence
 
-    for (const [id, evidence] of Object.entries(evidenceData)) {
-      const { knowledge = [], skill = [], behaviour = [] } = evidence.criteria
+  const result: Record<
+    string,
+    { base64: string; criteria: { knowledge: number[]; skill: number[]; behaviour: number[] } }
+  > = {}
 
-      const matches =
-        k.every((val: number) => knowledge.includes(val)) &&
-        s.every((val: number) => skill.includes(val)) &&
-        b.every((val: number) => behaviour.includes(val))
-
-      if (matches) {
-        try {
-          const imagePath = join(activeDir, id)
-          const imageBuffer = await fs.readFile(imagePath)
-          const base64 = `data:image/png;base64,${imageBuffer.toString('base64')}`
-          result[id] = base64
-        } catch (err) {
-          console.warn(`Failed to read image for ID ${id}:`, err)
-        }
+  for (const [id, evidence] of Object.entries(evidenceData)) {
+    try {
+      const imagePath = join(activeDir, id)
+      const imageBuffer = await fs.readFile(imagePath)
+      const base64 = `data:image/png;base64,${imageBuffer.toString('base64')}`
+      result[id] = {
+        base64,
+        criteria: evidence.criteria
       }
+    } catch (err) {
+      console.warn(`Failed to read image for ID ${id}:`, err)
     }
-
-    return result
-  } else {
-    return {}
   }
+
+  return result
 })
 
 // Quit when all windows are closed, except on macOS. There, it's common

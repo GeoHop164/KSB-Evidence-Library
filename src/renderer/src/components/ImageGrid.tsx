@@ -20,21 +20,50 @@ function ImageGrid({
   setLoading,
   imageClicked
 }: ImageGridProps): React.JSX.Element {
-  const [images, setImages] = useState<ImageMap>({})
+  const [allImages, setAllImages] = useState<
+    Record<
+      string,
+      { base64: string; criteria: { knowledge: number[]; skill: number[]; behaviour: number[] } }
+    >
+  >({})
+  const [filteredImages, setFilteredImages] = useState<ImageMap>({})
+  const [initialLoad, setInitialLoad] = useState(true)
 
   useEffect(() => {
+    setLoading(true)
     const fetchImages = async (): Promise<void> => {
       try {
-        const result: ImageMap = await window.electron.ipcRenderer.invoke('getImages', criteria)
-        setImages(result)
-        setLoading(false)
+        const result = await window.electron.ipcRenderer.invoke('getImages')
+        setAllImages(result)
       } catch (error) {
         console.error('Failed to fetch images:', error)
+      } finally {
+        setLoading(false)
+        setInitialLoad(false)
       }
     }
 
     fetchImages()
-  }, [criteria, setLoading])
+  }, [setLoading])
+
+  useEffect(() => {
+    const [k, s, b] = criteria
+    const filtered: ImageMap = {}
+
+    for (const [id, { base64, criteria }] of Object.entries(allImages)) {
+      const { knowledge = [], skill = [], behaviour = [] } = criteria
+      const matches =
+        k.every((val) => knowledge.includes(val)) &&
+        s.every((val) => skill.includes(val)) &&
+        b.every((val) => behaviour.includes(val))
+
+      if (matches) {
+        filtered[id] = base64
+      }
+    }
+
+    setFilteredImages(filtered)
+  }, [criteria, allImages, setLoading])
 
   function imageClickHandler(id: string): void {
     imageClicked(id)
@@ -42,9 +71,13 @@ function ImageGrid({
 
   return (
     <>
-      {!loading ? (
+      {loading || initialLoad ? (
+        <div className="card" style={{ backgroundColor: 'white', marginTop: '10%' }}>
+          <h1 style={{ color: 'black' }}>Loading...</h1>
+        </div>
+      ) : (
         <div id="imageGrid">
-          {Object.entries(images).map(([key, base64]) => (
+          {Object.entries(filteredImages).map(([key, base64]) => (
             <div
               id={'container_' + key}
               key={key}
@@ -61,11 +94,6 @@ function ImageGrid({
               />
             </div>
           ))}
-        </div>
-      ) : (
-        // <img src={loadingIcon}></img>
-        <div className="card" style={{ backgroundColor: 'white' }}>
-          <h1 style={{ color: 'black' }}>Loading...</h1>
         </div>
       )}
     </>
