@@ -38,7 +38,7 @@ function ImageGrid({
       } catch (error) {
         console.error('Failed to fetch images:', error)
       } finally {
-        setLoading(false)
+        // setLoading(false)
         setInitialLoad(false)
       }
     }
@@ -62,7 +62,29 @@ function ImageGrid({
       }
     }
 
-    setFilteredImages(filtered)
+    // Wait for all images to finish loading before updating state
+    const preloadImages = async (): Promise<void> => {
+      const loadPromises = Object.values(filtered).map((src) => {
+        return new Promise((resolve) => {
+          const img = new Image()
+          img.src = src
+          img.onload = resolve
+          img.onerror = resolve
+        })
+      })
+
+      await Promise.all(loadPromises)
+      setFilteredImages(filtered)
+      setLoading(false)
+      setInitialLoad(false)
+    }
+
+    if (Object.keys(filtered).length > 0) {
+      preloadImages()
+    } else {
+      setFilteredImages(filtered)
+      setInitialLoad(false)
+    }
   }, [criteria, allImages, setLoading])
 
   function imageClickHandler(id: string): void {
