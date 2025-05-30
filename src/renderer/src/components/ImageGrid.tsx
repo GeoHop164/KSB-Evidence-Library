@@ -8,6 +8,7 @@ interface ImageGridProps {
   setLoading: (load: boolean) => void
   imageClicked: (id: string) => void
   loading: boolean
+  refreshKey: number
 }
 
 interface ImageMap {
@@ -18,7 +19,8 @@ function ImageGrid({
   criteria,
   loading,
   setLoading,
-  imageClicked
+  imageClicked,
+  refreshKey
 }: ImageGridProps): React.JSX.Element {
   const [allImages, setAllImages] = useState<
     Record<
@@ -44,7 +46,7 @@ function ImageGrid({
     }
 
     fetchImages()
-  }, [setLoading])
+  }, [setLoading, refreshKey])
 
   useEffect(() => {
     const [k, s, b] = criteria
@@ -62,7 +64,6 @@ function ImageGrid({
       }
     }
 
-    // Wait for all images to finish loading before updating state
     const preloadImages = async (): Promise<void> => {
       const loadPromises = Object.values(filtered).map((src) => {
         return new Promise((resolve) => {
@@ -92,7 +93,7 @@ function ImageGrid({
   }
 
   return (
-    <>
+    <div id="imageGridContainer">
       {loading || initialLoad ? (
         <div className="card" style={{ backgroundColor: 'white', marginTop: '10%' }}>
           <h1 style={{ color: 'black' }}>Loading...</h1>
@@ -118,7 +119,7 @@ function ImageGrid({
           ))}
         </div>
       )}
-    </>
+    </div>
   )
 }
 

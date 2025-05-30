@@ -19,6 +19,7 @@ interface AppProps {
 
 function App({ path, onConfigSet }: AppProps): React.JSX.Element {
   const [loading, setLoading] = useState<boolean>(true)
+  const [refreshKey, setRefreshKey] = useState(0)
   const [selectedK, setSelectedK] = useState<number[]>([])
   const [selectedS, setSelectedS] = useState<number[]>([])
   const [selectedB, setSelectedB] = useState<number[]>([])
@@ -85,7 +86,7 @@ function App({ path, onConfigSet }: AppProps): React.JSX.Element {
   }
 
   return (
-    <>
+    <div id="appContainer">
       <div
         id="headerContainer"
         style={{
@@ -146,6 +147,7 @@ function App({ path, onConfigSet }: AppProps): React.JSX.Element {
         loading={loading}
         setLoading={setLoading}
         imageClicked={setUploadVisible}
+        refreshKey={refreshKey}
       ></ImageGrid>
 
       {uploadVisible && (
@@ -153,9 +155,10 @@ function App({ path, onConfigSet }: AppProps): React.JSX.Element {
           uploadVisible={uploadVisible}
           setUploadVisible={setUploadVisible}
           criteria={[k, s, b]}
+          onUploadComplete={() => setRefreshKey((prev) => prev + 1)}
         ></UploadFile>
       )}
-    </>
+    </div>
   )
 }
 

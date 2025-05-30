@@ -11,6 +11,7 @@ interface UploadFileProps {
   setUploadVisible: (visible: string | null) => void
   criteria: string[][]
   uploadVisible: string | null
+  onUploadComplete: () => void
 }
 
 interface ExistingData {
@@ -24,7 +25,8 @@ interface ExistingData {
 function UploadFile({
   setUploadVisible,
   criteria,
-  uploadVisible
+  uploadVisible,
+  onUploadComplete
 }: UploadFileProps): React.JSX.Element {
   const [selectedK, setSelectedK] = useState<number[]>([])
   const [selectedS, setSelectedS] = useState<number[]>([])
@@ -119,6 +121,7 @@ function UploadFile({
       setSelectedB([])
       setEvidenceDate(null)
       setDescription('')
+      onUploadComplete()
     } else {
       alert(result.message)
     }
