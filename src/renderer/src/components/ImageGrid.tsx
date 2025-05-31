@@ -41,7 +41,7 @@ function ImageGrid({
         console.error('Failed to fetch images:', error)
       } finally {
         // setLoading(false)
-        setInitialLoad(false)
+        // setInitialLoad(false)
       }
     }
 
@@ -95,7 +95,17 @@ function ImageGrid({
   return (
     <div id="imageGridContainer">
       {loading || initialLoad ? (
-        <div className="card" style={{ backgroundColor: 'white', marginTop: '10%' }}>
+        <div
+          className="card"
+          style={{
+            backgroundColor: 'white',
+            marginTop: '10%',
+            display: 'block',
+            marginRight: 'auto',
+            marginLeft: 'auto',
+            width: 'fit-content'
+          }}
+        >
           <h1 style={{ color: 'black' }}>Loading...</h1>
         </div>
       ) : (
