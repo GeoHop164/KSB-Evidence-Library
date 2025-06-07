@@ -181,3 +181,25 @@ div {
   width: 25%;
   opacity: 0.5;
 }
+
+#deleteButton {
+  display: flex;
+  background-color: #ee8683;
+  border: solid black 1vh;
+  box-shadow: -1vh 1vh 0px 0px rgba(0, 0, 0, 1);
+  display: block;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  cursor: pointer;
+  margin-bottom: 1%;
+  margin-top: 1%;
+  margin-left: auto;
+  margin-right: auto;
+  width: 99%
+}
+
+#deleteButton:hover {
+  transform: translate(-1vh, 1vh);
+  box-shadow: none;
+}

@@ -174,6 +174,7 @@ function UploadFile({
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           ></textarea>
+          {uploadVisible != 'new' && <div id="deleteButton">Delete Evidence</div>}
         </div>
         <div className="uploadActionButton" id="uploadClose" onClick={closeWindow}>
           <img className="actionImage" src={Close} />
