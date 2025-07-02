@@ -127,6 +127,24 @@ function UploadFile({
     }
   }
 
+  const handleDelete = async function (evidenceID): Promise<boolean> {
+    const result = await window.electron.ipcRenderer.invoke('deleteEvidence', evidenceID)
+    if (result.success) {
+      console.log('Evidence Deleted')
+      setUploadVisible(null)
+      setSelectedK([])
+      setSelectedS([])
+      setSelectedB([])
+      setEvidenceDate(null)
+      setDescription('')
+      onUploadComplete()
+      return true
+    } else {
+      alert(result.message)
+      return false
+    }
+  }
+
   return (
     <div id="uploadBackground">
       <div id="uploadGrid">
@@ -174,7 +192,11 @@ function UploadFile({
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           ></textarea>
-          {uploadVisible != 'new' && <div id="deleteButton">Delete Evidence</div>}
+          {uploadVisible != 'new' && (
+            <div id="deleteButton" onClick={() => handleDelete(uploadVisible)}>
+              Delete Evidence
+            </div>
+          )}
         </div>
         <div className="uploadActionButton" id="uploadClose" onClick={closeWindow}>
           <img className="actionImage" src={Close} />

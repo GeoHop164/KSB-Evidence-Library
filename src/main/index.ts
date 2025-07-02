@@ -517,6 +517,52 @@ ipcMain.handle('getImages', async (): Promise<object> => {
   return result
 })
 
+ipcMain.handle('deleteEvidence', async (_event, evidenceID: string): Promise<object> => {
+  const activeDir = await getActiveLibrary()
+  if (!activeDir) {
+    return {
+      success: false,
+      message: 'No active library found'
+    }
+  }
+
+  const imagePath = join(activeDir, evidenceID)
+  const configPath = join(activeDir, '.lib-config')
+
+  try {
+    await fs.unlink(imagePath)
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err)
+    return {
+      success: false,
+      message: `Could not delete image file at ${imagePath}: ${message}`
+    }
+  }
+
+  try {
+    const libConfigFile = await fs.readFile(configPath, 'utf-8')
+    const libConfig = JSON.parse(libConfigFile)
+
+    if (!libConfig.evidence || !libConfig.evidence[evidenceID]) {
+      return {
+        success: false,
+        message: `Evidence ID ${evidenceID} not found in database`
+      }
+    }
+
+    delete libConfig.evidence[evidenceID]
+    await fs.writeFile(configPath, JSON.stringify(libConfig, null, 4))
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err)
+    return {
+      success: false,
+      message: `Could not update database at ${configPath}: ${message}`
+    }
+  }
+
+  return { success: true }
+})
+
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
 // explicitly with Cmd + Q.
