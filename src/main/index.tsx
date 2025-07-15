@@ -9,6 +9,7 @@ import { fileURLToPath } from 'url'
 import sharp from 'sharp'
 import { randomUUID } from 'crypto'
 import React from 'react'
+import path from 'path'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -564,37 +565,269 @@ ipcMain.handle('deleteEvidence', async (_event, evidenceID: string): Promise<obj
   return { success: true }
 })
 
-import {
-  renderToBuffer, // Use renderToBuffer for a simpler async operation
-  Document,
-  Page,
-  View,
-  Text,
-  StyleSheet
-} from '@react-pdf/renderer'
+interface Database {
+  filePath: string
+  criteria: {
+    knowledge: string[]
+    skill: string[]
+    behaviour: string[]
+  }
+  evidence: {
+    [key: string]: {
+      evidenceDate: string
+      criteria: {
+        knowledge: number[]
+        skill: number[]
+        behaviour: number[]
+      }
+      description: string
+    }
+  }
+}
+
+interface EvidenceItem {
+  imageBuffer: Buffer | null
+  description: string
+  timestamp: string
+}
+
+interface CriterionItem {
+  criterionText: string
+  evidence: EvidenceItem[]
+}
+
+interface ProcessedData {
+  knowledge: CriterionItem[]
+  skill: CriterionItem[]
+  behaviour: CriterionItem[]
+}
+
+import { renderToBuffer, Document, Page, View, Text, StyleSheet, Image } from '@react-pdf/renderer'
 
 const styles = StyleSheet.create({
-  page: { flexDirection: 'row', backgroundColor: '#E4E4E4' },
-  section: { margin: 10, padding: 10, flexGrow: 1 }
+  page: {
+    padding: 30,
+    fontFamily: 'Helvetica'
+  },
+  mainHeader: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
+    color: '#1a237e'
+  },
+  criteriaSection: {
+    marginBottom: 25
+  },
+  criteriaHeader: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    color: '#3f51b5'
+  },
+  evidenceContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#e0e0e0',
+    paddingBottom: 10
+  },
+  evidenceImage: {
+    width: 300,
+    // height: 80,
+    marginRight: 10,
+    objectFit: 'cover'
+  },
+  evidenceTextContainer: {
+    flex: 1,
+    flexDirection: 'column'
+  },
+  evidenceDescription: {
+    fontSize: 10,
+    color: '#424242',
+    marginBottom: 5
+  },
+  evidenceTimestamp: {
+    fontSize: 8,
+    color: '#616161'
+  },
+  noEvidenceText: {
+    fontSize: 10,
+    fontStyle: 'italic',
+    color: '#757575'
+  }
 })
 
-export const MyDocument = (): React.JSX.Element => (
+const formatTimestamp = (isoString: string): string => {
+  if (!isoString) return ''
+  const date = new Date(isoString)
+  return date.toLocaleString('en-GB', {
+    day: '2-digit',
+    month: 'long',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit'
+  })
+}
+
+export const MyDocument = ({ data }: { data: ProcessedData }): React.JSX.Element => (
   <Document>
     <Page size="A4" style={styles.page}>
-      <View style={styles.section}>
-        <Text>Section #1</Text>
-      </View>
-      <View style={styles.section}>
-        <Text>Section #2</Text>
-      </View>
+      {/* Knowledge Section */}
+      <Text style={styles.mainHeader}>Knowledge</Text>
+      {data.knowledge.map((item, index) => (
+        <View key={`k-${index}`} style={styles.criteriaSection}>
+          <Text style={styles.criteriaHeader}>
+            {index + 1}. {item.criterionText}
+          </Text>
+          {item.evidence.length > 0 ? (
+            item.evidence.map(
+              (evidence, eIndex) =>
+                evidence.imageBuffer && (
+                  <View key={`k-e-${eIndex}`} style={styles.evidenceContainer}>
+                    <Image style={styles.evidenceImage} src={evidence.imageBuffer} />
+                    <View style={styles.evidenceTextContainer}>
+                      <Text style={styles.evidenceDescription}>
+                        {evidence.description || 'No description provided.'}
+                      </Text>
+                      <Text style={styles.evidenceTimestamp}>
+                        {formatTimestamp(evidence.timestamp)}
+                      </Text>
+                    </View>
+                  </View>
+                )
+            )
+          ) : (
+            <Text style={styles.noEvidenceText}>No evidence for this KSB.</Text>
+          )}
+        </View>
+      ))}
+
+      {/* Skill Section */}
+      <Text style={styles.mainHeader}>Skill</Text>
+      {data.skill.map((item, index) => (
+        <View key={`s-${index}`} style={styles.criteriaSection}>
+          <Text style={styles.criteriaHeader}>
+            {index + 1}. {item.criterionText}
+          </Text>
+          {item.evidence.length > 0 ? (
+            item.evidence.map(
+              (evidence, eIndex) =>
+                evidence.imageBuffer && (
+                  <View key={`s-e-${eIndex}`} style={styles.evidenceContainer}>
+                    <Image style={styles.evidenceImage} src={evidence.imageBuffer} />
+                    <View style={styles.evidenceTextContainer}>
+                      <Text style={styles.evidenceDescription}>
+                        {evidence.description || 'No description provided.'}
+                      </Text>
+                      <Text style={styles.evidenceTimestamp}>
+                        {formatTimestamp(evidence.timestamp)}
+                      </Text>
+                    </View>
+                  </View>
+                )
+            )
+          ) : (
+            <Text style={styles.noEvidenceText}>No evidence for this KSB.</Text>
+          )}
+        </View>
+      ))}
+
+      {/* Behaviour Section */}
+      <Text style={styles.mainHeader}>Behaviour</Text>
+      {data.behaviour.map((item, index) => (
+        <View key={`b-${index}`} style={styles.criteriaSection}>
+          <Text style={styles.criteriaHeader}>
+            {index + 1}. {item.criterionText}
+          </Text>
+          {item.evidence.length > 0 ? (
+            item.evidence.map(
+              (evidence, eIndex) =>
+                evidence.imageBuffer && (
+                  <View key={`b-e-${eIndex}`} style={styles.evidenceContainer}>
+                    <Image style={styles.evidenceImage} src={evidence.imageBuffer} />
+                    <View style={styles.evidenceTextContainer}>
+                      <Text style={styles.evidenceDescription}>
+                        {evidence.description || 'No description provided.'}
+                      </Text>
+                      <Text style={styles.evidenceTimestamp}>
+                        {formatTimestamp(evidence.timestamp)}
+                      </Text>
+                    </View>
+                  </View>
+                )
+            )
+          ) : (
+            <Text style={styles.noEvidenceText}>No evidence for this KSB.</Text>
+          )}
+        </View>
+      ))}
     </Page>
   </Document>
 )
 
 ipcMain.handle('export', async () => {
+  const dbPath = path.join(activeConfig, '.lib-config')
+
+  let db: Database
+  try {
+    const fileContent = await fs.readFile(dbPath, 'utf-8')
+    db = JSON.parse(fileContent)
+  } catch (error) {
+    console.error(`Failed to read or parse database file at ${dbPath}:`, error)
+    return { success: false, error: 'Could not load the database file.' }
+  }
+
+  // --- Data Processing Logic ---
+  const processData = async (database: Database): Promise<ProcessedData> => {
+    const processed: ProcessedData = {
+      knowledge: database.criteria.knowledge.map((text) => ({ criterionText: text, evidence: [] })),
+      skill: database.criteria.skill.map((text) => ({ criterionText: text, evidence: [] })),
+      behaviour: database.criteria.behaviour.map((text) => ({ criterionText: text, evidence: [] }))
+    }
+
+    for (const imageId in database.evidence) {
+      const evidenceItem = database.evidence[imageId]
+      const imagePath = path.join(activeConfig, `${imageId}`)
+      let imageBuffer: Buffer | null = null
+
+      try {
+        imageBuffer = await fs.readFile(imagePath)
+      } catch (err) {
+        console.error(`Could not read image file: ${imagePath}`, err)
+        continue
+      }
+
+      const evidencePayload = {
+        imageBuffer,
+        description: evidenceItem.description,
+        timestamp: evidenceItem.evidenceDate
+      }
+
+      evidenceItem.criteria.knowledge.forEach((index) => {
+        if (processed.knowledge[index]) {
+          processed.knowledge[index].evidence.push(evidencePayload)
+        }
+      })
+      evidenceItem.criteria.skill.forEach((index) => {
+        if (processed.skill[index]) {
+          processed.skill[index].evidence.push(evidencePayload)
+        }
+      })
+      evidenceItem.criteria.behaviour.forEach((index) => {
+        if (processed.behaviour[index]) {
+          processed.behaviour[index].evidence.push(evidencePayload)
+        }
+      })
+    }
+    return processed
+  }
+
+  const structuredData = await processData(db)
+
   const { filePath } = await dialog.showSaveDialog({
     title: 'Save PDF Report',
-    defaultPath: `report-${Date.now()}.pdf`,
+    defaultPath: `KSB-Evidence-${Date.now()}.pdf`,
     filters: [{ name: 'PDF Documents', extensions: ['pdf'] }]
   })
 
@@ -603,7 +836,7 @@ ipcMain.handle('export', async () => {
   }
 
   try {
-    const buffer = await renderToBuffer(<MyDocument />)
+    const buffer = await renderToBuffer(<MyDocument data={structuredData} />)
     await fs.writeFile(filePath, buffer)
     return { success: true, path: filePath }
   } catch (error) {
