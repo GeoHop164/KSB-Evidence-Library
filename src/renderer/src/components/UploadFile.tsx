@@ -163,7 +163,7 @@ function UploadFile({
             )}
           </div>
         </div>
-        <div id="uploadFormWindow">
+        <div id="uploadFormWindow" style={{ gap: '1%' }}>
           <h1>Criteria</h1>
           <KsbToggle
             toggleFunction={toggle}

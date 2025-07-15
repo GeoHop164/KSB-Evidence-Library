@@ -8,6 +8,7 @@ import { fileURLToPath } from 'url'
 // import { exec } from 'child_process'
 import sharp from 'sharp'
 import { randomUUID } from 'crypto'
+import React from 'react'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -561,6 +562,55 @@ ipcMain.handle('deleteEvidence', async (_event, evidenceID: string): Promise<obj
   }
 
   return { success: true }
+})
+
+import {
+  renderToBuffer, // Use renderToBuffer for a simpler async operation
+  Document,
+  Page,
+  View,
+  Text,
+  StyleSheet
+} from '@react-pdf/renderer'
+
+const styles = StyleSheet.create({
+  page: { flexDirection: 'row', backgroundColor: '#E4E4E4' },
+  section: { margin: 10, padding: 10, flexGrow: 1 }
+})
+
+export const MyDocument = (): React.JSX.Element => (
+  <Document>
+    <Page size="A4" style={styles.page}>
+      <View style={styles.section}>
+        <Text>Section #1</Text>
+      </View>
+      <View style={styles.section}>
+        <Text>Section #2</Text>
+      </View>
+    </Page>
+  </Document>
+)
+
+ipcMain.handle('export', async () => {
+  const { filePath } = await dialog.showSaveDialog({
+    title: 'Save PDF Report',
+    defaultPath: `report-${Date.now()}.pdf`,
+    filters: [{ name: 'PDF Documents', extensions: ['pdf'] }]
+  })
+
+  if (!filePath) {
+    return { success: false, error: 'Save dialog cancelled.' }
+  }
+
+  try {
+    const buffer = await renderToBuffer(<MyDocument />)
+    await fs.writeFile(filePath, buffer)
+    return { success: true, path: filePath }
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred'
+    console.error('Failed to generate or save the PDF:', error)
+    return { success: false, error: errorMessage }
+  }
 })
 
 // Quit when all windows are closed, except on macOS. There, it's common

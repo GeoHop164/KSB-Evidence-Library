@@ -11,6 +11,7 @@ import { preload } from 'react-dom'
 import iconClear from '../assets/MainActions/clear.webp'
 import iconExport from '../assets/MainActions/export.webp'
 import iconUpload from '../assets/MainActions/upload.webp'
+import Export from '../components/Export'
 
 interface AppProps {
   path: string
@@ -28,6 +29,7 @@ function App({ path, onConfigSet }: AppProps): React.JSX.Element {
   const [b, setB] = useState<string[]>([])
 
   const [uploadVisible, setUploadVisible] = useState<string | null>(null)
+  const [exportWindow, setExportWindow] = useState<boolean>(false)
 
   // const [loading, setLoading] = useState(true)
 
@@ -119,6 +121,7 @@ function App({ path, onConfigSet }: AppProps): React.JSX.Element {
             style={{ backgroundColor: '#6480C8' }}
             className="appAction"
             data-tooltip-id="export"
+            onClick={() => setExportWindow(true)}
           >
             <img src={iconExport} className="actionButton"></img>
           </div>
@@ -158,6 +161,8 @@ function App({ path, onConfigSet }: AppProps): React.JSX.Element {
           onUploadComplete={() => setRefreshKey((prev) => prev + 1)}
         ></UploadFile>
       )}
+
+      {exportWindow && <Export setExportWindow={setExportWindow} />}
     </div>
   )
 }
