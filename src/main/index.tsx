@@ -10,6 +10,8 @@ import sharp from 'sharp'
 import { randomUUID } from 'crypto'
 import React from 'react'
 import path from 'path'
+import { createWriteStream } from 'fs'
+import archiver from 'archiver'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -586,6 +588,7 @@ interface Database {
 }
 
 interface EvidenceItem {
+  imageId: string
   imageBuffer: Buffer | null
   description: string
   timestamp: string
@@ -778,7 +781,10 @@ ipcMain.handle('export', async () => {
     return { success: false, error: 'Could not load the database file.' }
   }
 
-  // --- Data Processing Logic ---
+  /**
+   * Processes the raw database into a structured format.
+   * This is optimized to read each file only once.
+   */
   const processData = async (database: Database): Promise<ProcessedData> => {
     const processed: ProcessedData = {
       knowledge: database.criteria.knowledge.map((text) => ({ criterionText: text, evidence: [] })),
@@ -786,48 +792,53 @@ ipcMain.handle('export', async () => {
       behaviour: database.criteria.behaviour.map((text) => ({ criterionText: text, evidence: [] }))
     }
 
-    for (const imageId in database.evidence) {
-      const evidenceItem = database.evidence[imageId]
-      const imagePath = path.join(activeConfig, `${imageId}`)
-      let imageBuffer: Buffer | null = null
+    // Use Promise.all to read all image files concurrently for better performance.
+    const evidencePromises = Object.entries(database.evidence).map(
+      async ([imageId, evidenceData]) => {
+        const imagePath = path.join(activeConfig, imageId)
+        let imageBuffer: Buffer | null = null
+        try {
+          imageBuffer = await fs.readFile(imagePath)
+        } catch (err) {
+          console.error(`Could not read image file: ${imagePath}`, err)
+        }
 
-      try {
-        imageBuffer = await fs.readFile(imagePath)
-      } catch (err) {
-        console.error(`Could not read image file: ${imagePath}`, err)
-        continue
+        const evidenceItem: EvidenceItem = {
+          imageId,
+          imageBuffer,
+          description: evidenceData.description,
+          timestamp: evidenceData.evidenceDate
+        }
+
+        // Return the processed item along with its criteria for later distribution.
+        return { evidenceItem, criteria: evidenceData.criteria }
       }
+    )
 
-      const evidencePayload = {
-        imageBuffer,
-        description: evidenceItem.description,
-        timestamp: evidenceItem.evidenceDate
-      }
+    const allEvidence = await Promise.all(evidencePromises)
 
-      evidenceItem.criteria.knowledge.forEach((index) => {
-        if (processed.knowledge[index]) {
-          processed.knowledge[index].evidence.push(evidencePayload)
-        }
+    // Distribute the processed evidence items into the correct criteria arrays.
+    for (const { evidenceItem, criteria } of allEvidence) {
+      criteria.knowledge.forEach((index) => {
+        if (processed.knowledge[index]) processed.knowledge[index].evidence.push(evidenceItem)
       })
-      evidenceItem.criteria.skill.forEach((index) => {
-        if (processed.skill[index]) {
-          processed.skill[index].evidence.push(evidencePayload)
-        }
+      criteria.skill.forEach((index) => {
+        if (processed.skill[index]) processed.skill[index].evidence.push(evidenceItem)
       })
-      evidenceItem.criteria.behaviour.forEach((index) => {
-        if (processed.behaviour[index]) {
-          processed.behaviour[index].evidence.push(evidencePayload)
-        }
+      criteria.behaviour.forEach((index) => {
+        if (processed.behaviour[index]) processed.behaviour[index].evidence.push(evidenceItem)
       })
     }
+
     return processed
   }
 
   const structuredData = await processData(db)
 
+  // --- PDF Save Dialog and Generation ---
   const { filePath } = await dialog.showSaveDialog({
     title: 'Save PDF Report',
-    defaultPath: `KSB-Evidence-${Date.now()}.pdf`,
+    defaultPath: `KSB-Evidence-Report-${Date.now()}.pdf`,
     filters: [{ name: 'PDF Documents', extensions: ['pdf'] }]
   })
 
@@ -838,11 +849,87 @@ ipcMain.handle('export', async () => {
   try {
     const buffer = await renderToBuffer(<MyDocument data={structuredData} />)
     await fs.writeFile(filePath, buffer)
-    return { success: true, path: filePath }
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred'
     console.error('Failed to generate or save the PDF:', error)
     return { success: false, error: errorMessage }
+  }
+
+  // --- ZIP File Generation with PNG Conversion ---
+  const zipPath = filePath.replace(/\.pdf$/, '.zip')
+  try {
+    console.log(`Generating ZIP archive with PNG conversion at: ${zipPath}`)
+
+    const output = createWriteStream(zipPath)
+    const archive = archiver('zip', { zlib: { level: 9 } })
+
+    output.on('close', () =>
+      console.log(`ZIP archive finalized. Total bytes: ${archive.pointer()}`)
+    )
+    archive.on('warning', (err) => {
+      if (err.code !== 'ENOENT') throw err
+      else console.warn(err)
+    })
+    archive.on('error', (err) => {
+      throw err
+    })
+    archive.pipe(output)
+
+    /**
+     * Converts images to PNG and adds them to the ZIP archive.
+     * This function is now async to handle image processing.
+     */
+    const addCategoryToZip = async (
+      categoryName: 'Knowledge' | 'Skills' | 'Behaviours',
+      prefix: 'K' | 'S' | 'B',
+      items: CriterionItem[]
+    ): Promise<void> => {
+      for (const [criterionIndex, criterion] of items.entries()) {
+        const sortedEvidence = [...criterion.evidence].sort(
+          (a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
+        )
+
+        // Process all image conversions for a criterion in parallel.
+        const conversionPromises = sortedEvidence.map(async (evidence, evidenceIndex) => {
+          if (!evidence.imageBuffer) return
+
+          try {
+            // Convert the original WebP buffer to a PNG buffer using sharp.
+            const pngBuffer = await sharp(evidence.imageBuffer).png().toBuffer()
+
+            const criterionNumber = criterionIndex + 1
+            const evidenceLetter = String.fromCharCode(65 + evidenceIndex)
+            // The new file will always have a .png extension.
+            const newFileName = `${prefix}${criterionNumber}${evidenceLetter}.png`
+            const pathInZip = path.join(categoryName, newFileName)
+
+            // Append the newly created PNG buffer to the archive.
+            archive.append(pngBuffer, { name: pathInZip })
+          } catch (conversionError) {
+            console.error(`Failed to convert image ${evidence.imageId} to PNG:`, conversionError)
+          }
+        })
+
+        await Promise.all(conversionPromises)
+      }
+    }
+
+    // Await the completion of all asynchronous ZIP operations.
+    await addCategoryToZip('Knowledge', 'K', structuredData.knowledge)
+    await addCategoryToZip('Skills', 'S', structuredData.skill)
+    await addCategoryToZip('Behaviours', 'B', structuredData.behaviour)
+
+    await archive.finalize()
+
+    return { success: true, path: filePath, zipPath: zipPath }
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred'
+    console.error('Failed to generate or save the ZIP file:', error)
+    return {
+      success: true,
+      path: filePath,
+      error: `The PDF was saved, but the ZIP archive failed: ${errorMessage}`
+    }
   }
 })
 

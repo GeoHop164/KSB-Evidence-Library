@@ -1,6 +1,6 @@
 {
   "name": "ksb-evidence-library",
-  "version": "0.1.1",
+  "version": "0.9.5",
   "description": "App for tracking evidence against KSBs for apprenticeships.",
   "main": "./out/main/index.js",
   "author": "noetic.studio/s",
@@ -24,8 +24,12 @@
     "@electron-toolkit/preload": "^3.0.1",
     "@electron-toolkit/utils": "^4.0.0",
     "@react-pdf/renderer": "^4.3.0",
+    "color-name": "^2.0.0",
+    "color-string": "^2.0.1",
     "electron-updater": "^6.3.9",
+    "react": "^19.1.0",
     "react-datepicker": "^8.4.0",
+    "react-dom": "^19.1.0",
     "react-tooltip": "^5.28.1",
     "sharp": "^0.34.2"
   },
@@ -45,8 +49,6 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.19",
     "prettier": "^3.5.3",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0",
     "typescript": "^5.8.3",
     "vite": "^6.2.6"
   }
