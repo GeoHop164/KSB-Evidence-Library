@@ -21,7 +21,80 @@ Since a lot of KSB evidence could be confidential or otherwise legally protected
 
 Since KSB Library doesn't use the cloud, it does mean that only one copy of your data exists by default. However, if you set the location of your library to a cloud location, such as a folder synced with OneDrive or Google Drive, the library will be accessible across devices.
 
-## How do I set up my KSBs?
+## How do I get started?
+
+Upon opening KSB Library, you'll be greeted with the following page. Click "New Library" if you haven't already started a library.
+
+![First page upon opening KSB Library with 4 buttons: New Library, Open Existing, Import Library, and a help button](_ProjectAssets/1.png)
+
+You can then set up your KSBs, and choose a location to store the data for your library.
+
+![Interface for adding KSBs and selecting a folder](_ProjectAssets/2.png)
+
+You can manually add KSBs with the `+` buttons at the top of each column, or by importing an existing standard using the "Load existing standard file" button.
+
+To do this, you must have a `.KSB-Standard` file, see more [below](#how-do-i-manually-set-up-my-ksbs).
+
+Once you've imported or added your KSBs, you need to click the folder icon to select where your data is going to go on your computer. Make sure to choose a folder you're not going to accidentally delete, or one on removable storage if you don't always have the storage device with you.
+
+![Page with completed information to create library](_ProjectAssets/3.png)
+
+After clicking the tick, you'll see this screen:
+
+![Library page with no evidence](_ProjectAssets/4.png)
+
+To begin adding evidence, click the `+` button.
+
+![Menu for adding evidence](_ProjectAssets/5.png)
+
+You can then click "Upload Image" to upload your evidence, and choose the KSBs the image matches, as well as when the event in the evidence took place, and a description of how the evidence has met the criteria. You can hover over each KSB to see the title, as shown below.
+
+![Evidence being added](_ProjectAssets/6.png)
+
+After you add the evidence by clicking the tick button, you'll be taken back to your library page, where your new evidence can be found. You can use the filters at the top to select a combination of KSBs, or clear filters with the red button.
+
+![Evidence library with new evidence](_ProjectAssets/7.png)
+
+Clicking on the image allows you to edit the details, such as adding or removing KSBs, or deleting the evidence entirely:
+
+![Evidence edit page](_ProjectAssets/8.png)
+
+### Exporting
+
+For your End Point Assessment, or to make evidence review easier without needing the KSB Library app open or available, you can export your evidence library. This will generate a .ZIP file of all of your images in folders like so:
+
+```tree
+├───Behaviours
+│       B11A.png
+│       B13A.png
+│       B1A.png
+│       B2A.png
+│       B3A.png
+│       B7A.png
+│       B7B.png
+│       B8A.png
+│       B8B.png
+│       B8C.png
+│       
+├───Knowledge
+│       K1A.png
+│       K2A.png
+│       K2B.png
+│       K3A.png
+│       K4A.png
+│       K5A.png
+│       
+└───Skills
+        S2A.png
+```
+
+This will also export a .PDF file of all of your evidence sorted in the same way, with the descriptions and timestamps.
+
+To export, simply click the blue export icon in the top right and click "Generate and Save PDF".
+
+![Export menu](_ProjectAssets/9.png)
+
+## How do I manually set up my KSBs?
 
 When you create a new library, you can manually add each KSB, or you can load an existing standard. You can find standards in: `src/main/standards`, and are in the following format:
 
