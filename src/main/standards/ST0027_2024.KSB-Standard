@@ -1,0 +1,61 @@
+{
+    "standard": "ST0027",
+    "year": 2024,
+    "criteria": {
+        "knowledge": [
+            "Safety, environmental, sustainability and security standards associated with product, component or system design, development or modifications and the environments in which they reside.",
+            "Hazardous environments and safe systems of work including the impact on the design specification, product, component, system development or modification.",
+            "Constraints or limitations when designing, developing, testing or modifying a product, component or system.",
+            "Principles and applications of thermodynamics and fluid dynamics relevant to product design or development.",
+            "Principles and applications of mechanical dynamic systems relevant to product design or development.",
+            "Factors that determine material selection relevant to the appropriate industry sector and product, component or system being designed or developed.",
+            "Product design and development life cycle stages.",
+            "Principles of mathematics and scientific methods including analytical techniques required to perform the product design or development engineer role such as evaluating statistical data, complex numbers and matrices.",
+            "Principles and applications of electrical, electronic systems and components and digital engineering relevant to product design or development such as analogue to digital conversion, semiconductor devices and circuits, sensors and electric motors.",
+            "Formats for collecting, presenting and storing data including how to select the best method for conveying complex information, and how to analyse the benefits and risks of each methodology.",
+            "Commercial nature of projects and how any changes or delays impact on the business.",
+            "Methods or techniques used for improving or enhancing the safety, reliability, quality, performance and sustainability of products, systems or components such as lean or six sigma.",
+            "Data acquisition and troubleshooting techniques for diagnosing problems, faults or establishing performance characteristics, supporting improvement opportunities and potential design modifications to systems, products or components.",
+            "Ways to access personal and professional development and to maintain vocational currency.",
+            "Specific organisational processes used in the research, design and development products, components or systems and how they can be utilised to optimise factors such as safety, efficiency, performance, productivity and sustainability.",
+            "Quality management and assurance processes.",
+            "Management of change (MOC) processes of requesting, determining viability, planning, implementing and evaluating changes to a product, system or component. Understand the importance of strict adherence to MOC, and know the limitations when providing MOC approval.",
+            "Principles of Computer Aided Design (CAD) tools and Computer Aided Manufacture (CAM) packages.",
+            "Principles of simulation tools such as Augmented Reality (AR), Finite Element Analysis (FEA) or assembly simulation with Computer Aided Engineering (CAE) tools.",
+            "Project management method(s) and principles of how to record project or programmes of work outcomes and metrics to track progress.",
+            "How advances in technology could impact organisations in the future including factors such as the mechanical and electrical integration, digitalisation, manufacturing systems and in supporting the sustainability agenda such as Industry 4.0.",
+            "Workload or time management techniques used to ensure that personal and team objectives are achieved.",
+            "Different applications and limitations of computer based software system or packages used in the design and development process.",
+            "Benefits of working collaboratively with colleagues and sharing best practice to support business quality and performance measures or issues.",
+            "Manufacturing methods used to support the design or development process from concept to production ready products, components or systems."
+        ],
+        "skill": [
+            "Translate conceptual ideas or technical requirements into developmental outcomes or operational designs or specifications for products, systems or components to solve engineering challenges such as compliance, technology, technical or physical challenges.",
+            "Select, use and apply approved problem-solving methods to solve complex problems and determine appropriate solutions or actions such as Define, Measure, Analyse, Improve, and Control (DMAIC), Failure Mode Effects Analysis (FMEA) or Plan-Do-Check-Act (PDCA).",
+            "Collate and use a range of data sources and supporting documentation to support projects.",
+            "Interpret and produce technical documentation such as schematic and circuit diagrams, engineering drawings or 3D CAD models, simulation models, project plans, engineering reports, test reports, fault reports or data analytics using company documentation systems and guidelines.",
+            "Observe, record and draw accurate and auditable conclusions from data or developmental or test evidence.",
+            "Manage assigned projects or programmes of work to meet the required specification, taking into account factors such as resource requirements, safety, quality, cost and performance or sustainability criteria. Apply processes for project or programme management including outcomes such as escalation, audit or risk management and risk mitigation.",
+            "Comply with statutory and organisational safety standards and requirements, supporting safety risk assessments and mitigate any risks identified within the design, manufacture, development or test activity.",
+            "Identify resources, such as digital tools or technologies, human, equipment, materials or data, to complete design and development projects or programmes of work.",
+            "Create and manage a project or work programme plan and develop activities in a logical process embedding mechanisms for adapting to changing circumstances or requirements.",
+            "Demonstrate leadership when undertaking product design, development, modification or update engineering activities.",
+            "Identify and rectify faults, inaccuracies, discrepancies or unexpected results during the design or development process, which may impact the quality and reliability of the product, system or component.",
+            "Ensure that all systems or equipment has been correctly configured and checked for safe operation before use.",
+            "Evaluate engineering designs, development or modification options.",
+            "Identify areas for improvement and lead continuous improvement activities in the operation and performance of the product, system or component.",
+            "Complete project documentation checks throughout the activity and report non-conformances."
+        ],
+        "behaviour": [
+            "Champions a healthy and safe working environment.",
+            "Has a quality and compliance mindset.",
+            "Uses independent judgement and takes responsibility for decisions.",
+            "Collaborate and promote teamwork across disciplines.",
+            "Is agile, resilient and motivated when faced with change.",
+            "Builds relationships in a respectful, collaborative and open and honest way.",
+            "Committed to continuous professional development.",
+            "Committed to upholding the organisations values, ethics, goals, codes of practice, statutory requirements and standards.",
+            "Leads by example being an advocate for change and sustainable approaches."
+        ]
+    }
+}

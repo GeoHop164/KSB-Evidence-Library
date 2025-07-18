@@ -1,0 +1,59 @@
+{
+    "standard": "ST0203",
+    "year": 2024,
+    "criteria": {
+        "knowledge": [
+            "Safety, environmental and security standards associated with control systems and the environments in which they reside such as cyber security and human factors.",
+            "Hazardous areas and safe systems of work including how they can impact the specification of a control and safety system.",
+            "Applications and limitations of control systems and associated instrumentation and equipment such as valves, motors and pumps, plant layout and infrastructure.",
+            "Principles and applications of fluid power systems.",
+            "Systems programming, cyber security, network protocols, databases and software languages of various systems such as programmable logic solvers, human-machine interfaces, data acquisition systems, Profibus, Profinet, EthanetIP and HART.",
+            "Materials and manufacturing processes relevant to the relevant industry sector.",
+            "Control system life-cycle stages such as establishing requirements, technical design specification, selecting suppliers, through to project execution, commissioning, operation and eventual decommissioning.",
+            "Principles of mathematics and scientific methods including analytical techniques required to perform the control systems engineer role such as normalising and evaluating statistical data.",
+            "Principles and applications of electrical, electronic, process control and digital engineering relevant to control systems such as analogue to digital conversion, digital communications buses, and Proportional-Integral-Derivative (PID) algorithms.",
+            "Different formats for collecting, presenting and storing data such as project, technical and or financial information.",
+            "Commercial nature of projects or programmes of work and how any changes or delays impact on the business such as quality, cost and delivery.",
+            "Assessment and monitoring techniques used for improving the reliability and availability of process control and safety systems including instrumentation and associated equipment such as valves, pump and motors.",
+            "Troubleshooting techniques for diagnosing faults, repairing and recovering control systems from breakdowns.",
+            "Improvement methods and techniques, such as lean and six sigma techniques.",
+            "Specific processes under control and how they can automated to optimise efficiency, and performance",
+            "Quality management and assurance processes associated with control and safety systems such as validation, factory acceptance testing and compliance to international safety standards and technical directives.",
+            "Management of change (MOC) processes of requesting, determining viability, planning, implementing and evaluating changes to a control system. Understand the importance of strict adherence to MOC, and know the limitations when providing MOC approval.",
+            "How to support the start-up and shutdown of a process using the control and safety systems.",
+            "Principles of offline simulation tools such as simulated production lines or high-fidelity process models including applications, limitations and benefits.",
+            "Project management methods and principles of how to set out and record project or programmes of work outcomes and metrics and to track progress.",
+            "How advances in technology could impact organisations in the future including the integration of automation, digital systems and manufacturing engineering systems such as Industry 4.0.",
+            "Workload or time management techniques used to ensure that personal and team objectives are achieved.",
+            "Different applications and limitations of computer-based software systems or packages used such as Computer Aided Design (CAD), Computer Aided Modelling, Data Analytics and Databases and project management software tools or programmes.",
+            "Benefits of working collaboratively with colleagues and sharing best practice to support business quality and performance measures or issues such as sharing ideas, solutions to problems previously encountered or benefits of implementing new technologies."
+        ],
+        "skill": [
+            "Translate conceptual designs or technical specifications into operational process control systems.",
+            "Select, use and apply approved problem-solving methods to solve complex problems and determine appropriate solutions such as Define, Measure, Analyse, Improve, and Control (DMAIC), Failure Mode Effects Analysis (FMEA), Plan-Do-Check-Act (PDCA) and fishbone diagrams.",
+            "Select the best method for collating and conveying complex information using a range of data sources and supporting documentation.",
+            "Interpret and produce technical documentation such as schematic diagrams, project plans, fault reports or data analytics using company documentation systems and guidelines.",
+            "Observe, record and draw accurate and auditable conclusions from data and or developmental or test evidence.",
+            "Manage assigned projects or programmes of work, taking into account factors such as safety, quality, cost and performance criteria. Apply techniques and processes for project or programme management including escalation, audit or risk management and risk mitigation.",
+            "Comply with statutory and organisational safety standards and requirements including supporting safety risk assessments and mitigating any risks identified within the control systems environment.",
+            "Identify resources required to complete control system projects, project tasks or programmes of work, with consideration to factors such as cost, quality, safety, security, environmental impact as applicable to the activity.",
+            "Create a project or work programme plan and develop activities in a logical process embedding mechanisms for adapting to changing circumstances or requirements.",
+            "Demonstrate leadership when undertaking control system engineering activities such as system design, integration, operational simulation, installation, testing, pre commissioning, commissioning and maintenance of control systems.",
+            "Ensure that all instrumentation has been correctly configured and calibrated before use.",
+            "Identify areas for improvement and lead continuous improvement activities such as improving safety, quality, technology solutions, operational processes, training and development, equipment performance or cost key performance indicators (KPIs).",
+            "Perform checks on control systems documentation to ensure it meets organisational compliance and traceability requirements. Report any non-conformances using the appropriate processes and procedures.",
+            "Interpret key performance indicators and utilise improvement techniques or processes to improve efficiency and effectiveness such as lean or six sigma."
+        ],
+        "behaviour": [
+            "Champions a healthy and safe working environment.",
+            "Has a quality and compliance mindset.",
+            "Uses independent judgement and takes responsibility for decisions.",
+            "Collaborates and promotes teamwork across discipline.",
+            "Is agile, resilient and motivated when faced with change.",
+            "Builds relationships in a respectful, collaborative and open and honest way.",
+            "Committed to continuous professional development.",
+            "Committed to upholding the organisations values, ethics, goals, codes of practice, statutory requirements and standards.",
+            "Leads by example by being an advocate for change and sustainable approaches."
+        ]
+    }
+}

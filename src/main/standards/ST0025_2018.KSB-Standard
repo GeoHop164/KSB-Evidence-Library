@@ -1,0 +1,38 @@
+{
+    "standard": "ST0025",
+    "year": 2018,
+    "criteria": {
+        "knowledge": [
+            "Mathematics and science for engineers",
+            "Materials and manufacture",
+            "3D Computer Aided Design and Computer Aided Engineering",
+            "How to run and manage business led projects",
+            "Engineering operations and business management",
+            "Manufacturing processes",
+            "Product improvement and engineering project management"
+        ],
+        "skill": [
+            "Comply with statutory and organisational safety requirements and demonstrate a responsible and disciplined approach to risk mitigation, avoidance and management.",
+            "Undertake project management and schedule of engineering activities",
+            "Secure and manage appropriate resources",
+            "Manage budgets",
+            "Implement engineering processes",
+            "Monitor and evaluate engineering processes"
+        ],
+        "behaviour": [
+            "Safety mindset. The importance of complying with statutory and organisational health, safety and risk management requirements and the implications if these are not adhered to",
+            "Strong work ethic: Has a positive attitude, motivated by engineering; dependable, ethical, responsible and reliable.",
+            "Logical approach: Able to structure a plan and develop activities following a logical thought process, but also able to quickly \"think on feet\" when working through them.",
+            "Problem solving orientation: Identifies issues quickly, enjoys solving complex problems and applies appropriate solutions. Has a strong desire to push to ensure the true root cause of any problem is found and a solution identified which prevents further recurrence.",
+            "Quality focus: Follows rules, procedures and principles in ensuring work completed is fit for purpose and pays attention to detail / error checks throughout activities.",
+            "Personal responsibility and resilience: Motivated to succeed accountable and persistent to complete task.",
+            "Clear communicator: Uses a variety of appropriate communication methods to give/receive information accurately, and in a timely and positive manner.",
+            "Team player: Not only plays own part but able to work and communicate clearly and effectively within a team and interacts/ helps others when required. In doing so applies these skills in a respectful professional manner.",
+            "Applies Lean Manufacturing Principles: Demonstrates continuous improvement in driving effectiveness and efficiency",
+            "Adaptability: Able to adjust to different conditions, technologies, situations and environments.",
+            "Self-Motivation: A 'self-starter', who always wants to give their best, sets themselves challenging targets, can make their own decisions.",
+            "Willingness to learn: Wants to drive their continuous professional development",
+            "Commitment: Able to commit to the beliefs, goals and standards of their own employer and to the wider industry and its professional standards."
+        ]
+    }
+}
