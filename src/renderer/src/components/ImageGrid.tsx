@@ -123,7 +123,7 @@ function ImageGrid({
                 src={base64}
                 alt={`Image ${key}`}
                 className="evidenceImage"
-                style={{ width: '100%', height: 'auto', objectFit: 'cover' }}
+                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
               />
             </div>
           ))}

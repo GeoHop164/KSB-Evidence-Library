@@ -1,6 +1,6 @@
 {
   "name": "ksb-evidence-library",
-  "version": "0.9.5",
+  "version": "0.9.6",
   "description": "App for tracking evidence against KSBs for apprenticeships.",
   "main": "./out/main/index.js",
   "author": "noetic.studio/s",
