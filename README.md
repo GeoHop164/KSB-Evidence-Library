@@ -147,4 +147,4 @@ If you prefer to use a text editor, you can write your own standard in this form
 
 ## Has this project helped you out?
 
-[<img src="https://cdn.buymeacoffee.com/buttons/default-black.png" style="width:300px; border-radius: 25px">](coff.ee/geohop164)
+[<img src="https://cdn.buymeacoffee.com/buttons/default-black.png" style="width:300px; border-radius: 25px">](https://coff.ee/geohop164)
