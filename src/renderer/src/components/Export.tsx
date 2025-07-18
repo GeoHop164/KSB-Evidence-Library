@@ -58,7 +58,7 @@ function Export({ setExportWindow }: ExportProps): React.JSX.Element {
               cursor: isSaving ? 'not-allowed' : 'pointer'
             }}
           >
-            {isSaving ? 'Generating...' : 'Generate and Save PDF'}
+            {isSaving ? 'Exporting...' : 'Generate PDF & ZIP'}
           </button>
         </div>
         <div id="closeExport" onClick={() => setExportWindow(false)}>

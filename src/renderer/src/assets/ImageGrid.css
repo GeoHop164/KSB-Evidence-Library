@@ -15,6 +15,10 @@
 
 }
 
+#imageGridContainer::-webkit-scrollbar { 
+    display: none;
+}
+
 .evidenceImageContainer {
   position: relative;
   width: 100%;

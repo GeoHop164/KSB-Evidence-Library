@@ -144,3 +144,7 @@ When you create a new library, you can manually add each KSB, or you can load an
 ```
 
 If you prefer to use a text editor, you can write your own standard in this format, save it as a `.KSB-Standard` file, and load it into KSB-Library.
+
+## Has this project helped you out?
+
+[<img src="https://cdn.buymeacoffee.com/buttons/default-black.png" style="width:300px; border-radius: 25px">](coff.ee/geohop164)
